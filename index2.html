@@ -3,541 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Deobfuscator Pro - Upload & Bersihkan Kode Obfuscated</title>
+    <title>Deobfuscator + Hapus/Tambah Proteksi</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', monospace;
-            background: #1a1a2e;
-            margin: 0;
-            min-height: 100vh;
-            padding: 20px;
-            color: #eee;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            color: #4ecdc4;
-        }
-        .subtitle {
-            text-align: center;
-            color: #888;
-            margin-bottom: 30px;
-        }
-        .warning {
-            background: #2a2a3e;
-            border-left: 4px solid #f39c12;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        @media (max-width: 768px) {
-            .grid { grid-template-columns: 1fr; }
-        }
-        .panel {
-            background: #16213e;
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid #2c3e66;
-        }
-        .file-upload-area {
-            border: 2px dashed #2c3e66;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 15px;
-            background: #0f0f1a;
-            transition: all 0.2s;
-        }
-        .file-upload-area:hover {
-            border-color: #4ecdc4;
-            background: #1a1a2e;
-        }
-        .file-upload-area input {
-            display: none;
-        }
-        .file-upload-area label {
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: #4ecdc4;
-            border-radius: 8px;
-            color: #1a1a2e;
-            font-weight: bold;
-        }
-        .file-info {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #888;
-        }
-        textarea {
-            width: 100%;
-            height: 400px;
-            background: #0f0f1a;
-            border: 1px solid #2c3e66;
-            border-radius: 8px;
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            color: #e0e0e0;
-            resize: vertical;
-        }
-        button {
-            background: #4ecdc4;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 10px 5px 0 0;
-        }
-        button:hover {
-            background: #44b3aa;
-        }
-        button.secondary {
-            background: #2c3e66;
-        }
-        button.secondary:hover {
-            background: #1e2a4a;
-        }
-        button.danger {
-            background: #e74c3c;
-        }
-        button.danger:hover {
-            background: #c0392b;
-        }
-        .info-bar {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #888;
-            display: flex;
-            justify-content: space-between;
-        }
-        .badge {
-            background: #2c3e66;
-            padding: 2px 8px;
-            border-radius: 12px;
-        }
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #555;
-            font-size: 12px;
-        }
-        .status-msg {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            border-radius: 8px;
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-        }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #0a0f1e; font-family: 'Segoe UI', monospace; padding: 20px; }
+        .container { max-width: 1300px; margin: 0 auto; }
+        h1 { color: #ffd966; margin-bottom: 8px; }
+        .sub { color: #aaa; margin-bottom: 20px; border-left: 3px solid #ffd966; padding-left: 15px; }
+        .toolbar { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; background: #1e1f2c; padding: 12px 20px; border-radius: 60px; align-items: center; }
+        .file-label { background: #3b82f6; padding: 8px 18px; border-radius: 40px; cursor: pointer; color: white; font-weight: bold; }
+        .file-label:hover { background: #2563eb; }
+        input[type="file"] { display: none; }
+        .options { display: flex; flex-wrap: wrap; gap: 25px; background: #2c2f3e; padding: 15px 20px; border-radius: 60px; margin-bottom: 20px; }
+        .options-group { border-left: 2px solid #ffd966; padding-left: 15px; }
+        .options-group h4 { color: #ffd966; font-size: 14px; margin-bottom: 8px; }
+        .options-group label { display: flex; align-items: center; gap: 8px; cursor: pointer; color: #e2e8f0; font-size: 13px; margin: 5px 0; }
+        .grid { display: flex; gap: 20px; flex-wrap: wrap; }
+        .panel { flex: 1; min-width: 300px; background: #1e1f2c; border-radius: 24px; overflow: hidden; border: 1px solid #334155; }
+        .panel-header { background: #2c2f3e; padding: 12px 18px; font-weight: bold; color: #ffd966; border-bottom: 1px solid #334155; }
+        textarea { width: 100%; min-height: 500px; background: #0f1222; border: none; color: #e2e8f0; font-family: 'Courier New', monospace; font-size: 13px; padding: 16px; resize: vertical; outline: none; white-space: pre-wrap; }
+        .actions { margin: 20px 0; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        button { background: #3b82f6; border: none; padding: 10px 24px; border-radius: 40px; font-weight: bold; color: white; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        button:hover { background: #2563eb; transform: scale(0.97); }
+        .download-btn { background: #22c55e; }
+        .msg { text-align: center; margin-top: 16px; color: #4ade80; font-size: 14px; min-height: 40px; }
+        footer { text-align: center; margin-top: 30px; color: #64748b; font-size: 12px; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>🔓 JS Deobfuscator Pro</h1>
-    <div class="subtitle">Upload File JS/HTML → Bersihkan Kode Obfuscated → Download Hasil</div>
-    
-    <div class="warning">
-        ⚠️ <strong>Catatan Penting:</strong> Nama variabel asli dan komentar <strong>TIDAK BISA</strong> dikembalikan 100%. 
-        Deobfuscator ini akan membersihkan format, mendecode string, dan menghapus dead code.
+    <h1>🔓 Deobfuscator + Penghapus Proteksi</h1>
+    <div class="sub">Upload HTML (bisa sudah diobfuscate/diproteksi). Centang Deobfuscate untuk mengembalikan kode. Centang proteksi yang ingin DITAMBAHKAN. Proteksi yang TIDAK dicentang akan dihapus dari output.</div>
+
+    <div class="toolbar">
+        <label class="file-label">📂 Upload File HTML <input type="file" id="fileUpload" accept=".html,.htm"></label>
+        <span id="fileName" style="color:#aaa;">Belum ada file</span>
+    </div>
+
+    <div class="options">
+        <div class="options-group">
+            <h4>🌀 DeOBFUSCATE</h4>
+            <label><input type="checkbox" id="enableDeobfuscate" checked> Kembalikan Acak JavaScript (decode base64, rename _0x...)</label>
+        </div>
+        <div class="options-group">
+            <h4>🛡️ PROTEKSI (centang = tambah, tidak centang = hapus)</h4>
+            <label><input type="checkbox" id="protectRightClick" checked> Disable Klik Kanan</label>
+            <label><input type="checkbox" id="protectSelect" checked> Disable Seleksi Teks</label>
+            <label><input type="checkbox" id="protectCopy" checked> Disable Copy/Paste</label>
+            <label><input type="checkbox" id="protectDevtools" checked> Disable DevTools (F12, dll)</label>
+        </div>
     </div>
 
     <div class="grid">
-        <div class="panel">
-            <h3>🔀 Kode Obfuscated (Input)</h3>
-            
-            <!-- AREA UPLOAD FILE -->
-            <div class="file-upload-area">
-                <input type="file" id="fileUpload" accept=".js,.html,.htm,.txt">
-                <label for="fileUpload">
-                    📁 Upload File (.js / .html)
-                </label>
-                <div class="file-info" id="fileInfo">
-                    Belum ada file dipilih
-                </div>
-            </div>
-            
-            <textarea id="inputCode" placeholder="Atau tempelkan kode JavaScript/HTML yang sudah diobfuscate di sini...&#10;&#10;Contoh:&#10;function _0x3a(){let _0x1b=&quot;Pengunjung&quot;;let _0x2c=&quot;Selamat datang, &quot;+_0x1b+&quot;!&quot;;alert(_0x2c);}"></textarea>
-            
-            <div class="info-bar">
-                <span>📄 Bisa upload file .js atau .html</span>
-            </div>
-            <button id="deobfuscateBtn">✨ Deobfuscate / Bersihkan</button>
-            <button id="exampleBtn" class="secondary">📋 Muat Contoh</button>
-            <button id="clearBtn" class="danger">🗑️ Clear Semua</button>
-        </div>
-
-        <div class="panel">
-            <h3>📄 Kode yang Sudah Dibersihkan (Output)</h3>
-            <textarea id="outputCode" readonly placeholder="Hasil deobfuscation akan muncul di sini..."></textarea>
-            <button id="copyBtn">📋 Salin ke Clipboard</button>
-            <button id="downloadBtn">💾 Download sebagai .js</button>
-            <button id="downloadHtmlBtn" class="secondary">🌐 Download sebagai .html</button>
-            <div class="info-bar">
-                <span id="stats" class="badge">Siap</span>
-                <span>💡 Kode siap pakai & bisa diedit</span>
-            </div>
-        </div>
+        <div class="panel"><div class="panel-header">📄 INPUT HTML</div><textarea id="inputHtml" placeholder="Tempel HTML atau upload file..."></textarea></div>
+        <div class="panel"><div class="panel-header">🔓 OUTPUT</div><textarea id="outputHtml" readonly></textarea></div>
     </div>
-    <footer>
-        🔓 Deobfuscator client-side — Kode tidak dikirim ke server manapun. File tetap aman di komputer Anda.
-    </footer>
+
+    <div class="actions">
+        <button id="processBtn">⚡ Proses (Deobfuscate & Atur Proteksi)</button>
+        <button id="downloadBtn" class="download-btn">⬇️ Download Hasil</button>
+        <button id="clearBtn">🧹 Bersihkan</button>
+    </div>
+    <div id="infoMsg" class="msg"></div>
+    <footer>✅ Cara kerja: <br>1. Hapus semua tag &lt;script&gt; yang mengandung kode proteksi (contextmenu, selectstart, copy, F12, debugger dll).<br>2. Jika Deobfuscate dicentang, ubah kode JavaScript (decode base64, rename _0x...).<br>3. Tambahkan script proteksi baru HANYA untuk opsi yang dicentang.<br>Hasil akhir: proteksi yang tidak dicentang akan hilang.</footer>
 </div>
 
 <script>
-    // ========================
-    // FUNGSI DEOBFUSCATOR
-    // ========================
-    
-    function beautifyCode(code) {
-        let formatted = code
-            .replace(/{/g, '{\n    ')
-            .replace(/}/g, '\n}\n')
-            .replace(/;/g, ';\n')
-            .replace(/,\n/g, ', ')
-            .replace(/\n\s*\n/g, '\n');
-        
-        let lines = formatted.split('\n');
-        let indent = 0;
-        let result = [];
-        
-        for (let line of lines) {
-            let trimmed = line.trim();
-            if (trimmed.includes('}')) {
-                indent = Math.max(0, indent - 1);
-            }
-            let indentStr = '    '.repeat(indent);
-            result.push(indentStr + trimmed);
-            if (trimmed.includes('{') && !trimmed.includes('}')) {
-                indent++;
-            }
-        }
-        return result.join('\n');
-    }
-    
-    function decodeBase64Strings(code) {
-        const base64Regex = /atob\(["']([^"']+)["']\)/g;
-        let decoded = code;
-        let match;
-        
-        while ((match = base64Regex.exec(code)) !== null) {
-            try {
-                const encoded = match[1];
-                const decodedStr = atob(encoded);
-                decoded = decoded.replace(match[0], `"${decodedStr}"`);
-            } catch(e) {}
-        }
-        return decoded;
-    }
-    
-    function decodeHexStrings(code) {
-        return code.replace(/\\x([0-9a-fA-F]{2})/g, (match, hex) => {
-            return String.fromCharCode(parseInt(hex, 16));
-        });
-    }
-    
-    function simplifyNumbers(code) {
-        let processed = code.replace(/0x[0-9a-fA-F]+/g, (match) => {
-            return parseInt(match, 16).toString();
-        });
-        
-        processed = processed.replace(/\((\d+)\+(\d+)\)/g, (match, a, b) => {
-            return (parseInt(a) + parseInt(b)).toString();
-        });
-        
-        processed = processed.replace(/\((\d+)\-(\d+)\)/g, (match, a, b) => {
-            return (parseInt(a) - parseInt(b)).toString();
-        });
-        
-        return processed;
-    }
-    
-    function removeDeadCode(code) {
-        let cleaned = code.replace(/if\(false\)\{[\s\S]*?\}/g, '');
-        cleaned = cleaned.replace(/var _dc_[a-zA-Z0-9]+="[^"]*";/g, '');
-        cleaned = cleaned.replace(/console\.log\("dead"\);/g, '');
-        return cleaned;
-    }
-    
-    function evaluateStaticExpressions(code) {
-        const exprRegex = /\((\d+)\s*([\+\-\*\/])\s*(\d+)\)/g;
-        let result = code;
-        let match;
-        
-        while ((match = exprRegex.exec(code)) !== null) {
-            try {
-                let a = parseInt(match[1]);
-                let b = parseInt(match[3]);
-                let op = match[2];
-                let value;
-                if (op === '+') value = a + b;
-                else if (op === '-') value = a - b;
-                else if (op === '*') value = a * b;
-                else if (op === '/') value = Math.floor(a / b);
-                else continue;
-                result = result.replace(match[0], value.toString());
-            } catch(e) {}
-        }
-        return result;
-    }
-    
-    function renameToReadable(code) {
-        const varPattern = /\b(_0x[a-f0-9]+|[a-z_]+\d+)\b/g;
-        let varMap = new Map();
-        let counter = 1;
-        const keywords = ['var', 'let', 'const', 'function', 'return', 'if', 'else', 'for', 'while', 'true', 'false', 'null', 'undefined', 'console', 'document', 'window', 'alert', 'prompt'];
-        
-        let processed = code.replace(varPattern, (match) => {
-            if (keywords.includes(match)) return match;
-            if (!varMap.has(match)) {
-                varMap.set(match, `v${counter++}`);
-            }
-            return varMap.get(match);
-        });
-        
-        return processed;
-    }
-    
-    function removeSelfDefending(code) {
-        const wrapperRegex = /^\(function\(\)\{[\s\S]*?try\{([\s\S]*?)\}catch[\s\S]*?\}\)\(\);?/;
-        const match = code.match(wrapperRegex);
-        if (match && match[1]) {
-            return match[1];
-        }
-        return code;
-    }
-    
-    function extractJavaScriptFromHTML(html) {
-        // Jika input adalah HTML, ekstrak isi tag script
-        const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
-        let jsParts = [];
-        let match;
-        while ((match = scriptRegex.exec(html)) !== null) {
-            if (match[1].trim()) {
-                jsParts.push(match[1]);
-            }
-        }
-        if (jsParts.length > 0) {
-            return jsParts.join('\n\n// === SCRIPT BERIKUTNYA ===\n\n');
-        }
-        return html;
-    }
-    
-    function deobfuscate(obfuscatedCode) {
-        if (!obfuscatedCode.trim()) return "";
-        
-        let result = obfuscatedCode;
-        
-        // Deteksi apakah input berupa HTML
-        const isHTML = result.includes('<script') || result.includes('</script>') || result.includes('<html');
-        if (isHTML) {
-            result = extractJavaScriptFromHTML(result);
-        }
-        
-        // Proses deobfuscation
-        result = removeSelfDefending(result);
-        result = decodeHexStrings(result);
-        result = decodeBase64Strings(result);
-        result = simplifyNumbers(result);
-        result = evaluateStaticExpressions(result);
-        result = removeDeadCode(result);
-        result = renameToReadable(result);
-        result = beautifyCode(result);
-        
-        result = result.replace(/\n\s*\n/g, '\n').trim();
-        
-        if (isHTML && !result.startsWith('//')) {
-            result = '// JavaScript yang diekstrak dari HTML:\n\n' + result;
-        }
-        
-        return result;
-    }
-    
-    // ========================
-    // UI INTERACTION
-    // ========================
-    const inputArea = document.getElementById('inputCode');
-    const outputArea = document.getElementById('outputCode');
-    const deobfuscateBtn = document.getElementById('deobfuscateBtn');
-    const copyBtn = document.getElementById('copyBtn');
+(function() {
+    const inputEl = document.getElementById('inputHtml');
+    const outputEl = document.getElementById('outputHtml');
+    const processBtn = document.getElementById('processBtn');
     const downloadBtn = document.getElementById('downloadBtn');
-    const downloadHtmlBtn = document.getElementById('downloadHtmlBtn');
     const clearBtn = document.getElementById('clearBtn');
-    const exampleBtn = document.getElementById('exampleBtn');
-    const statsSpan = document.getElementById('stats');
-    const fileUpload = document.getElementById('fileUpload');
-    const fileInfo = document.getElementById('fileInfo');
-    
-    function showMessage(msg, isError = false) {
-        const oldMsg = document.querySelector('.status-msg');
-        if(oldMsg) oldMsg.remove();
-        const div = document.createElement('div');
-        div.className = 'status-msg';
-        div.style.cssText = `position:fixed;bottom:20px;right:20px;background:${isError ? '#e74c3c' : '#4ecdc4'};color:#1a1a2e;padding:10px 20px;border-radius:8px;z-index:1000;font-weight:bold;`;
-        div.textContent = msg;
-        document.body.appendChild(div);
-        setTimeout(() => div.remove(), 3000);
-    }
-    
-    // UPLOAD FILE HANDLER
-    fileUpload.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        const validExt = ['.js', '.html', '.htm', '.txt'];
-        const fileName = file.name.toLowerCase();
-        const isValid = validExt.some(ext => fileName.endsWith(ext));
-        
-        if (!isValid) {
-            showMessage('Harap pilih file .js, .html, atau .txt', true);
-            return;
-        }
-        
-        fileInfo.textContent = `📄 ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
-        
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            inputArea.value = event.target.result;
-            showMessage(`✅ ${file.name} berhasil dimuat! Klik "Deobfuscate" untuk membersihkan.`);
-        };
-        reader.onerror = function() {
-            showMessage('Gagal membaca file', true);
-        };
-        reader.readAsText(file);
-    });
-    
-    deobfuscateBtn.addEventListener('click', () => {
-        const input = inputArea.value;
-        if (!input.trim()) {
-            showMessage('Masukkan kode atau upload file terlebih dahulu!', true);
-            return;
-        }
-        
-        deobfuscateBtn.innerHTML = '⏳ Memproses...';
-        
-        setTimeout(() => {
-            try {
-                const result = deobfuscate(input);
-                outputArea.value = result;
-                const originalLen = input.length;
-                const newLen = result.length;
-                const lines = result.split('\n').length;
-                statsSpan.innerHTML = `📊 ${originalLen.toLocaleString()} → ${newLen.toLocaleString()} karakter | ${lines} baris`;
-                showMessage('✅ Deobfuscation selesai! Kode sudah lebih bersih.');
-            } catch (err) {
-                console.error(err);
-                showMessage('Error: ' + err.message, true);
-                outputArea.value = '// Gagal memproses:\n// ' + err.message;
-                statsSpan.innerHTML = '❌ Error';
-            } finally {
-                deobfuscateBtn.innerHTML = '✨ Deobfuscate / Bersihkan';
+    const msgEl = document.getElementById('infoMsg');
+    const fileInput = document.getElementById('fileUpload');
+    const fileNameSpan = document.getElementById('fileName');
+
+    const chkDeobfuscate = document.getElementById('enableDeobfuscate');
+    const chkRightClick = document.getElementById('protectRightClick');
+    const chkSelect = document.getElementById('protectSelect');
+    const chkCopy = document.getElementById('protectCopy');
+    const chkDevtools = document.getElementById('protectDevtools');
+
+    // ==================== HAPUS SEMUA SCRIPT PROTEKSI ====================
+    function removeAllProtectionScripts(htmlString) {
+        // Fungsi untuk menentukan apakah isi script adalah script proteksi
+        function isProtectionScript(content) {
+            if (!content) return false;
+            let lower = content.toLowerCase();
+            // Daftar pola yang menandakan script proteksi
+            let patterns = [
+                'contextmenu', 'selectstart', 'dragstart', 
+                'addEventListener("copy"', 'addEventListener("cut"', 'addEventListener("paste"',
+                'f12', 'ctrlkey', 'shiftkey', 'debugger', 'performance.now'
+            ];
+            let count = 0;
+            for (let p of patterns) {
+                if (lower.includes(p)) count++;
+                if (count >= 2) return true;
             }
-        }, 10);
-    });
-    
-    copyBtn.addEventListener('click', () => {
-        if (!outputArea.value) {
-            showMessage('Tidak ada hasil', true);
+            // Juga cek jika script mengandung fungsi proteksi umum
+            if (lower.includes('preventdefault') && (lower.includes('keydown') || lower.includes('contextmenu'))) return true;
+            return false;
+        }
+
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(htmlString, 'text/html');
+        let scripts = doc.querySelectorAll('script');
+        let removed = false;
+        for (let script of scripts) {
+            if (isProtectionScript(script.textContent)) {
+                script.remove();
+                removed = true;
+            }
+        }
+        if (!removed) return htmlString;
+        let serializer = new XMLSerializer();
+        let out = serializer.serializeToString(doc);
+        out = out.replace(/<\?xml[^?]*\?>\s*/, '');
+        return out;
+    }
+
+    // ==================== DEOBFUSCATE ====================
+    function decodeBase64(str) {
+        try {
+            return decodeURIComponent(escape(atob(str)));
+        } catch(e) { return str; }
+    }
+
+    function deobfuscateJS(code) {
+        if (!code.trim()) return code;
+        // Ganti _d("base64") dengan string literal
+        let result = code.replace(/_d\((['"])([^'"]+)\1\)/g, function(match, quote, b64) {
+            let decoded = decodeBase64(b64);
+            return JSON.stringify(decoded);
+        });
+        // Hapus deklarasi const _d = ...
+        result = result.replace(/const\s+_d\s*=\s*[^;]+;\s*/g, '');
+        // Ganti variabel _0x... menjadi _var0, _var1 (agar lebih mudah dibaca)
+        let counter = 0;
+        let varMap = {};
+        result = result.replace(/\b(_0x[0-9a-f]{4,})\b/g, function(match) {
+            if (varMap[match] === undefined) varMap[match] = '_var' + (counter++);
+            return varMap[match];
+        });
+        return result;
+    }
+
+    function deobfuscateHTML(htmlString) {
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(htmlString, 'text/html');
+        let scripts = doc.querySelectorAll('script:not([src])');
+        for (let script of scripts) {
+            let original = script.textContent;
+            if (original.trim()) {
+                try {
+                    script.textContent = deobfuscateJS(original);
+                } catch(e) { console.warn(e); }
+            }
+        }
+        let serializer = new XMLSerializer();
+        let out = serializer.serializeToString(doc);
+        out = out.replace(/<\?xml[^?]*\?>\s*/, '');
+        return out;
+    }
+
+    // ==================== GENERATE PROTEKSI BARU (hanya yang dicentang) ====================
+    function generateProtectionScript() {
+        let parts = ['(function(){'];
+        if (chkRightClick.checked) {
+            parts.push('document.addEventListener("contextmenu",function(e){e.preventDefault();});');
+        }
+        if (chkSelect.checked) {
+            parts.push('document.addEventListener("selectstart",function(e){e.preventDefault();});');
+            parts.push('document.addEventListener("dragstart",function(e){e.preventDefault();});');
+        }
+        if (chkCopy.checked) {
+            parts.push('document.addEventListener("copy",function(e){e.preventDefault();});');
+            parts.push('document.addEventListener("cut",function(e){e.preventDefault();});');
+            parts.push('document.addEventListener("paste",function(e){e.preventDefault();});');
+        }
+        if (chkDevtools.checked) {
+            parts.push(`
+document.addEventListener("keydown",function(e){
+    if(e.key==="F12"){e.preventDefault();}
+    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&(e.key==="I"||e.key==="i")){e.preventDefault();}
+    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&(e.key==="J"||e.key==="j")){e.preventDefault();}
+    if((e.ctrlKey||e.metaKey)&&(e.key==="U"||e.key==="u")){e.preventDefault();}
+    if((e.ctrlKey||e.metaKey)&&(e.key==="S"||e.key==="s")){e.preventDefault();}
+});
+setInterval(function(){
+    var start=performance.now();debugger;var end=performance.now();
+    if(end-start>100){document.body.innerHTML="<h1 style='text-align:center;padding:50px;'>Akses ditolak</h1>";}
+},1000);
+`);
+        }
+        parts.push('})();');
+        let full = parts.join('');
+        if (full === '(function(){})();') return null;
+        return full;
+    }
+
+    function addProtectionScript(htmlString) {
+        let scriptCode = generateProtectionScript();
+        if (!scriptCode) return htmlString;
+        // Sisipkan sebelum </body>
+        if (/<\/body>/i.test(htmlString)) {
+            return htmlString.replace(/<\/body>/i, '<script>' + scriptCode + '<\/script>\n</body>');
+        } else {
+            return htmlString + '\n<script>' + scriptCode + '<\/script>';
+        }
+    }
+
+    // ==================== PROSES UTAMA ====================
+    async function process() {
+        let html = inputEl.value;
+        if (!html.trim()) {
+            msgEl.innerHTML = '❌ Masukkan atau upload HTML.';
+            msgEl.style.color = '#f87171';
             return;
         }
-        outputArea.select();
-        document.execCommand('copy');
-        showMessage('✅ Kode hasil deobfuscate disalin!');
-    });
-    
-    downloadBtn.addEventListener('click', () => {
-        if (!outputArea.value) {
-            showMessage('Tidak ada hasil', true);
+        processBtn.disabled = true;
+        processBtn.innerHTML = '⏳ Memproses...';
+        msgEl.innerHTML = '🔄 Menghapus semua proteksi lama, lalu deobfuscate, lalu tambah proteksi baru...';
+        msgEl.style.color = '#facc15';
+        try {
+            await new Promise(r => setTimeout(r, 20));
+            let result = html;
+            // 1. Hapus semua script proteksi (apapun jenisnya) dari HTML
+            result = removeAllProtectionScripts(result);
+            // 2. Deobfuscate jika dicentang
+            if (chkDeobfuscate.checked) {
+                result = deobfuscateHTML(result);
+            }
+            // 3. Tambahkan proteksi baru berdasarkan centang (jika ada yang dicentang)
+            if (chkRightClick.checked || chkSelect.checked || chkCopy.checked || chkDevtools.checked) {
+                result = addProtectionScript(result);
+            }
+            outputEl.value = result;
+            msgEl.innerHTML = '✅ Selesai! Proteksi yang TIDAK dicentang telah dihapus.';
+            msgEl.style.color = '#4ade80';
+            setTimeout(() => { if (msgEl.innerHTML.includes('Selesai')) msgEl.innerHTML = ''; }, 4000);
+        } catch (err) {
+            console.error(err);
+            outputEl.value = '<!-- ERROR: ' + err.message + ' -->';
+            msgEl.innerHTML = '⚠️ Gagal: ' + err.message;
+            msgEl.style.color = '#f97316';
+        } finally {
+            processBtn.disabled = false;
+            processBtn.innerHTML = '⚡ Proses (Deobfuscate & Atur Proteksi)';
+        }
+    }
+
+    function download() {
+        let content = outputEl.value;
+        if (!content || content.includes('ERROR')) {
+            msgEl.innerHTML = '⚠️ Tidak ada hasil. Proses dulu.';
+            msgEl.style.color = '#facc15';
             return;
         }
-        const blob = new Blob([outputArea.value], { type: 'text/javascript' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        let blob = new Blob([content], { type: 'text/html' });
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement('a');
         a.href = url;
-        a.download = 'deobfuscated_' + Date.now() + '.js';
+        a.download = 'deobfuscated_output.html';
         a.click();
         URL.revokeObjectURL(url);
-        showMessage('💾 File .js didownload!');
+        msgEl.innerHTML = '📁 Download selesai.';
+        msgEl.style.color = '#38bdf8';
+        setTimeout(() => { if (msgEl.innerHTML === '📁 Download selesai.') msgEl.innerHTML = ''; }, 2000);
+    }
+
+    function clearAll() {
+        inputEl.value = '';
+        outputEl.value = '';
+        msgEl.innerHTML = '✨ Bersih. Upload HTML yang ingin diatur proteksinya.';
+        msgEl.style.color = '#64748b';
+        fileInput.value = '';
+        fileNameSpan.innerText = 'Belum ada file';
+    }
+
+    fileInput.addEventListener('change', function(e) {
+        let file = e.target.files[0];
+        if (!file) return;
+        fileNameSpan.innerText = file.name;
+        let reader = new FileReader();
+        reader.onload = function(ev) {
+            inputEl.value = ev.target.result;
+            msgEl.innerHTML = '📂 File "' + file.name + '" siap.';
+            msgEl.style.color = '#4ade80';
+            setTimeout(function() { if (msgEl.innerHTML.includes('siap')) msgEl.innerHTML = ''; }, 2000);
+        };
+        reader.onerror = function() { msgEl.innerHTML = '❌ Gagal baca file.'; };
+        reader.readAsText(file);
     });
-    
-    downloadHtmlBtn.addEventListener('click', () => {
-        if (!outputArea.value) {
-            showMessage('Tidak ada hasil', true);
-            return;
-        }
-        const htmlContent = `<!DOCTYPE html>
+
+    processBtn.addEventListener('click', process);
+    downloadBtn.addEventListener('click', download);
+    clearBtn.addEventListener('click', clearAll);
+
+    // Contoh default
+    if (!inputEl.value.trim()) {
+        inputEl.value = `<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Deobfuscated JavaScript</title>
-</head>
+<head><title>Contoh</title></head>
 <body>
-    <h1>Hasil Deobfuscation</h1>
-    <pre style="background:#1e1e1e;color:#d4d4d4;padding:20px;overflow:auto;">${outputArea.value.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+    <h1>Halaman Demo</h1>
     <script>
-        ${outputArea.value}
+        // Proteksi lama (akan dihapus semua)
+        document.addEventListener('contextmenu',function(e){e.preventDefault();});
+        console.log("Kode normal");
+    <\/script>
+    <script>
+        function sapa(nama){ alert("Halo "+nama); }
+        sapa("Pengunjung");
     <\/script>
 </body>
 </html>`;
-        const blob = new Blob([htmlContent], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'deobfuscated_' + Date.now() + '.html';
-        a.click();
-        URL.revokeObjectURL(url);
-        showMessage('🌐 File .html didownload!');
-    });
-    
-    clearBtn.addEventListener('click', () => {
-        inputArea.value = '';
-        outputArea.value = '';
-        fileUpload.value = '';
-        fileInfo.textContent = 'Belum ada file dipilih';
-        statsSpan.innerHTML = 'Siap';
-        showMessage('Semua area dibersihkan');
-    });
-    
-    exampleBtn.addEventListener('click', () => {
-        inputArea.value = `function _0x3a(){
-    let _0x1b = "Pengunjung";
-    let _0x2c = "Selamat datang, " + _0x1b + "!";
-    let _0x4d = atob("SGFsbyBEVkMh");
-    console.log(_0x2c);
-    console.log(_0x4d);
-}
-const _0x5e = 0x2A;
-console.log(_0x5e);
-if(false){
-    var _dc_a="dead";
-    console.log("dead code");
-}`;
-        outputArea.value = '';
-        statsSpan.innerHTML = 'Contoh dimuat. Klik Deobfuscate.';
-        fileUpload.value = '';
-        fileInfo.textContent = 'Belum ada file dipilih';
-        showMessage('Contoh kode obfuscated dimuat!');
-    });
+    }
+})();
 </script>
 </body>
 </html>

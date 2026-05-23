@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Obfuscator - Pengacak Kode JavaScript</title>
+    <title>JS Obfuscator - Pengacak Kode JavaScript (Fixed)</title>
     <style>
         * {
             box-sizing: border-box;
@@ -120,16 +120,6 @@
             color: #cbd5e1;
         }
 
-        .option-item input[type="number"] {
-            width: 70px;
-            background: #1e293b;
-            border: 1px solid #475569;
-            border-radius: 6px;
-            padding: 4px 8px;
-            color: white;
-            margin-left: 5px;
-        }
-
         .button-group {
             display: flex;
             gap: 12px;
@@ -172,6 +162,14 @@
             background: #b91c1c;
         }
 
+        button.success {
+            background: #10b981;
+        }
+
+        button.success:hover {
+            background: #059669;
+        }
+
         .info-bar {
             display: flex;
             justify-content: space-between;
@@ -185,6 +183,11 @@
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 12px;
+        }
+
+        .error-badge {
+            background: #7f1d1d;
+            color: #fecaca;
         }
 
         footer {
@@ -207,42 +210,40 @@
     <div class="subtitle">Acak kode JavaScript dalam HTML — Tetap berfungsi, sulit dibaca</div>
 
     <div class="main-grid">
-        <!-- Panel Kode Asli -->
         <div class="panel">
             <h3>📄 Kode HTML Asli</h3>
-            <textarea id="inputCode" placeholder="Tempelkan kode HTML Anda di sini...&#10;&#10;Contoh:&#10;&lt;script&gt;&#10;  function halo(nama) {&#10;    alert(&#39;Halo, &#39; + nama);&#10;  }&#10;  halo(&#39;Dunia&#39;);&#10;&lt;/script&gt;"></textarea>
+            <textarea id="inputCode" placeholder="Tempelkan kode HTML Anda di sini..."></textarea>
             <div class="button-group">
                 <button id="obfuscateBtn" class="primary">✨ Obfuscate Sekarang</button>
                 <button id="exampleBtn" class="secondary example-btn">📋 Muat Contoh</button>
                 <button id="clearBtn" class="danger">🗑️ Clear</button>
             </div>
             <div class="info-bar">
-                <span>💡 Tips: Obfuscator hanya akan mengacak isi tag &lt;script&gt; — struktur HTML tetap utuh</span>
+                <span>💡 Tips: Obfuscator hanya akan mengacak isi tag &lt;script&gt;</span>
             </div>
         </div>
 
-        <!-- Panel Hasil Obfuscated -->
         <div class="panel">
             <h3>🔀 Kode Hasil Obfuscated</h3>
             <textarea id="outputCode" readonly placeholder="Hasil obfuscation akan muncul di sini..."></textarea>
             <div class="button-group">
-                <button id="copyBtn" class="secondary">📋 Salin ke Clipboard</button>
-                <button id="downloadBtn" class="secondary">💾 Download sebagai .html</button>
+                <button id="copyBtn" class="secondary">📋 Salin</button>
+                <button id="downloadBtn" class="success">💾 Download .html</button>
+                <button id="testBtn" class="secondary">🧪 Test Eksekusi</button>
             </div>
             <div class="info-bar">
-                <span>✅ Kode sudah diacak — Tetap bisa dijalankan di browser</span>
+                <span>✅ Kode sudah diacak</span>
                 <span id="stats" class="badge">Siap</span>
             </div>
         </div>
     </div>
 
-    <!-- Panel Opsi Obfuscation -->
     <div class="panel" style="margin-top: 20px;">
         <h3>⚙️ Konfigurasi Obfuscation</h3>
         <div class="options-grid">
             <div class="option-item">
                 <input type="checkbox" id="optRenameVars" checked> 
-                <label>🏷️ Rename Variabel (acak)</label>
+                <label>🏷️ Rename Variabel</label>
             </div>
             <div class="option-item">
                 <input type="checkbox" id="optRenameFuncs" checked> 
@@ -250,31 +251,19 @@
             </div>
             <div class="option-item">
                 <input type="checkbox" id="optStringEncoding" checked> 
-                <label>🔐 Encode String (Hex/Base64)</label>
+                <label>🔐 Encode String</label>
             </div>
             <div class="option-item">
-                <input type="checkbox" id="optDeadCode" checked> 
-                <label>💀 Dead Code Injection</label>
+                <input type="checkbox" id="optCompact"> 
+                <label>📦 Compact (hilangkan spasi)</label>
             </div>
             <div class="option-item">
-                <input type="checkbox" id="optCompact" checked> 
-                <label>📦 Compact (hilangkan spasi/baris)</label>
-            </div>
-            <div class="option-item">
-                <input type="checkbox" id="optNumberObf" checked> 
+                <input type="checkbox" id="optNumberObf"> 
                 <label>🔢 Obfuscate Angka</label>
-            </div>
-            <div class="option-item">
-                <input type="checkbox" id="optSplitStrings"> 
-                <label>✂️ Split String (potong-potong)</label>
-            </div>
-            <div class="option-item">
-                <input type="checkbox" id="optSelfDefending"> 
-                <label>🛡️ Self Defending (beta)</label>
             </div>
         </div>
         <div class="info-bar" style="margin-top: 10px;">
-            <span>⚠️ Mode "Self Defending" membuat kode sulit di-debug (lebih agresif).</span>
+            <span>⚠️ Mode Compact disarankan NONAKTIF agar kode tetap valid.</span>
         </div>
     </div>
     <footer>
@@ -286,212 +275,214 @@
     // ========================
     // UTILITY FUNCTIONS
     // ========================
-    function randomString(length = 8) {
+    
+    // Generate random string untuk rename
+    function randomString(length = 6) {
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$';
         let result = '';
         for (let i = 0; i < length; i++) {
             result += chars[Math.floor(Math.random() * chars.length)];
         }
-        // Hindari keyword JS
-        if (/^(var|let|const|function|return|if|else|for|while|break|continue|switch|case|default)$/.test(result)) {
-            return result + '_';
+        // Hindari keyword JavaScript
+        const keywords = ['var', 'let', 'const', 'function', 'return', 'if', 'else', 'for', 'while', 'break', 'continue', 'switch', 'case', 'default', 'true', 'false', 'null', 'undefined', 'NaN', 'Infinity', 'delete', 'typeof', 'instanceof', 'new', 'this', 'eval', 'arguments', 'await', 'async', 'class', 'extends', 'super', 'import', 'export', 'default', 'from', 'of', 'in', 'with', 'yield'];
+        if (keywords.includes(result)) {
+            return '_' + result;
         }
         return result;
     }
 
-    // Encode string ke Hex atau Base64
-    function encodeString(str, type = 'base64') {
-        if (type === 'base64') {
+    // Encode string ke Base64
+    function encodeToBase64(str) {
+        try {
             return 'atob("' + btoa(unescape(encodeURIComponent(str))) + '")';
-        } else {
-            let hex = '';
-            for (let i = 0; i < str.length; i++) {
-                hex += '\\x' + str.charCodeAt(i).toString(16);
-            }
-            return '"' + hex + '"';
+        } catch(e) {
+            return '"' + str + '"';
         }
     }
 
-    // Obfuscate angka: 42 -> (40+2) atau 0x2A
-    function obfuscateNumber(num) {
-        const methods = [
-            () => num.toString(),
-            () => '(0x' + num.toString(16) + ')',
-            () => '(' + Math.floor(Math.random() * 100) + '+' + (num - Math.floor(Math.random() * 100)) + ')',
-            () => '~~' + num,
-            () => '((' + (num + 7) + ')-7)'
-        ];
-        const idx = Math.floor(Math.random() * methods.length);
-        return methods[idx]();
+    // Encode string ke Hex escape
+    function encodeToHex(str) {
+        let hex = '';
+        for (let i = 0; i < str.length; i++) {
+            hex += '\\x' + str.charCodeAt(i).toString(16).padStart(2, '0');
+        }
+        return '"' + hex + '"';
     }
 
-    // Injeksi dead code (kode yang tidak akan pernah dieksekusi)
-    function injectDeadCode(code) {
-        const deadStub = `if(false){var _dc_${randomString(4)}="${randomString(10)}";console.log("dead");}`;
-        // Sisipkan di awal dan akhir fungsi / blok
-        return deadStub + ';' + code + ';' + deadStub;
-    }
-
-    // Split string literal menjadi potongan + join
-    function splitStringLiteral(str) {
-        if (str.length < 8) return JSON.stringify(str);
-        const part1 = str.slice(0, Math.floor(str.length / 2));
-        const part2 = str.slice(Math.floor(str.length / 2));
-        return `(${JSON.stringify(part1)}+${JSON.stringify(part2)})`;
-    }
-
-    // Proses literal string dalam AST simulasi (regex based for demo)
-    function processStringLiterals(code, encoding, splitStrings) {
-        // Regex untuk mendeteksi string literal (sederhana, hindari kompleksitas)
-        return code.replace(/('.*?'|".*?")/gs, (match) => {
-            if (!encoding && !splitStrings) return match;
-            let content = match.slice(1, -1);
-            // Cegah obfuscate berlebihan pada string kosong
+    // Proses string literals
+    function processStringLiterals(code, shouldEncode) {
+        if (!shouldEncode) return code;
+        
+        // Regex untuk menangkap string literal (sederhana)
+        return code.replace(/'(.*?)'/g, (match, content) => {
             if (content.length === 0) return match;
-            let result;
-            if (encoding && Math.random() > 0.3) {
-                result = encodeString(content, Math.random() > 0.5 ? 'base64' : 'hex');
-            } else if (splitStrings && content.length > 6 && Math.random() > 0.5) {
-                result = splitStringLiteral(content);
-            } else {
-                result = match;
-            }
-            return result;
+            // Random pilih Base64 atau Hex
+            const useBase64 = Math.random() > 0.5;
+            return useBase64 ? encodeToBase64(content) : encodeToHex(content);
+        }).replace(/"(.*?)"/g, (match, content) => {
+            if (content.length === 0) return match;
+            const useBase64 = Math.random() > 0.5;
+            return useBase64 ? encodeToBase64(content) : encodeToHex(content);
         });
     }
 
-    // Rename variabel & fungsi sederhana (menggunakan regex + mapping)
+    // Rename identifiers dengan aman
     function renameIdentifiers(code, renameVars, renameFuncs) {
         if (!renameVars && !renameFuncs) return code;
-
-        // Pola: var / let / const + spasi + identifier
-        // Pendekatan: ekstrak semua identifier yang mungkin lalu acak
-        let identifierMap = new Map();
-        let usedNames = new Set();
-
-        // Temukan var/let/const deklarasi
-        const varPattern = /\b(?:var|let|const)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g;
-        let match;
-        while ((match = varPattern.exec(code)) !== null) {
-            let oldName = match[1];
-            if (!identifierMap.has(oldName) && !/^(true|false|null|undefined|NaN|Infinity)$/.test(oldName)) {
-                let newName = randomString(6);
-                while (usedNames.has(newName) || /^_dc_/.test(newName)) newName = randomString(6);
-                usedNames.add(newName);
-                identifierMap.set(oldName, newName);
-            }
-        }
-
-        // Temukan nama fungsi: function namaFunc()
-        if (renameFuncs) {
-            const funcPattern = /\bfunction\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g;
-            while ((match = funcPattern.exec(code)) !== null) {
+        
+        const map = new Map();
+        const usedNames = new Set();
+        
+        // Kumpulkan semua identifier yang perlu direname
+        // Pattern untuk var, let, const
+        if (renameVars) {
+            const varPattern = /\b(?:var|let|const)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g;
+            let match;
+            while ((match = varPattern.exec(code)) !== null) {
                 let oldName = match[1];
-                if (!identifierMap.has(oldName)) {
+                if (!map.has(oldName)) {
                     let newName = randomString(6);
                     while (usedNames.has(newName)) newName = randomString(6);
                     usedNames.add(newName);
-                    identifierMap.set(oldName, newName);
+                    map.set(oldName, newName);
                 }
             }
         }
-
-        // Terapkan rename (boundary word)
-        let renamedCode = code;
-        for (let [oldId, newId] of identifierMap.entries()) {
-            const regex = new RegExp('\\b' + oldId + '\\b', 'g');
-            renamedCode = renamedCode.replace(regex, newId);
-        }
-        return renamedCode;
-    }
-
-    // Fungsi utama obfuscate kode JS
-    function obfuscateJavaScript(jsCode, options) {
-        if (!jsCode.trim()) return jsCode;
-        let result = jsCode;
-
-        // 1. Rename identifiers
-        if (options.renameVars || options.renameFuncs) {
-            result = renameIdentifiers(result, options.renameVars, options.renameFuncs);
-        }
-
-        // 2. Encode / obfuscate string literals
-        if (options.stringEncoding || options.splitStrings) {
-            result = processStringLiterals(result, options.stringEncoding, options.splitStrings);
-        }
-
-        // 3. Obfuscate angka
-        if (options.numberObf) {
-            result = result.replace(/\b\d+\b/g, (numStr) => {
-                let num = parseInt(numStr);
-                if (num > 10000 || num < -100) return numStr;
-                if (Math.random() > 0.6) return obfuscateNumber(num);
-                return numStr;
-            });
-        }
-
-        // 4. Dead code injection
-        if (options.deadCode) {
-            // sisipkan di setiap function, tapi secara global cukup diselipkan beberapa kali
-            result = injectDeadCode(result);
-            if (result.indexOf('function') !== -1) {
-                result = result.replace(/\{/g, '{' + injectDeadCode('') + ';');
+        
+        // Pattern untuk parameter fungsi
+        const funcParamPattern = /function\s*\w*\s*\(([^)]*)\)/g;
+        let match;
+        while ((match = funcParamPattern.exec(code)) !== null) {
+            const params = match[1].split(',').map(p => p.trim()).filter(p => p);
+            for (let param of params) {
+                if (!map.has(param) && /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(param)) {
+                    let newName = randomString(5);
+                    while (usedNames.has(newName)) newName = randomString(5);
+                    usedNames.add(newName);
+                    map.set(param, newName);
+                }
             }
         }
-
-        // 5. Compact: hapus whitespace berlebih
-        if (options.compact) {
-            result = result.replace(/\s+/g, ' ').replace(/;\s*;/g, ';').trim();
-            // hapus komentar
-            result = result.replace(/\/\/.*?($|\n)/g, '');
-            result = result.replace(/\/\*[\s\S]*?\*\//g, '');
+        
+        // Pattern untuk nama fungsi
+        if (renameFuncs) {
+            const funcNamePattern = /\bfunction\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g;
+            while ((match = funcNamePattern.exec(code)) !== null) {
+                let oldName = match[1];
+                if (!map.has(oldName)) {
+                    let newName = randomString(6);
+                    while (usedNames.has(newName)) newName = randomString(6);
+                    usedNames.add(newName);
+                    map.set(oldName, newName);
+                }
+            }
         }
-
-        // 6. Self defending sederhana (wrap di try-catch plus integrity check)
-        if (options.selfDefending) {
-            let wrappedCode = result;
-            result = `(function(){var _sd=true;try{(function(){${wrappedCode}})();}catch(e){_sd=false;}if(!_sd||typeof window!=='undefined'&&window.name!=='__protect'){throw new Error('Invalid execution');}})();`;
+        
+        // Terapkan rename
+        let result = code;
+        for (let [oldName, newName] of map) {
+            const regex = new RegExp('\\b' + oldName + '\\b', 'g');
+            result = result.replace(regex, newName);
         }
-
+        
         return result;
     }
 
-    // Parse HTML, ekstrak semua tag script, obfuscate inner javascript
-    function obfuscateHtml(html, options) {
-        // Regex untuk menangkap <script> ... </script> (termasuk atribut)
-        const scriptTagRegex = /(<script\b[^>]*>)([\s\S]*?)(<\/script>)/gi;
-        let obfuscatedHtml = html;
-        let match;
-        let scriptsProcessed = 0;
+    // Obfuscate angka
+    function obfuscateNumbers(code) {
+        return code.replace(/\b(\d+)\b/g, (match, num) => {
+            const n = parseInt(num);
+            if (n < 0 || n > 9999) return match;
+            if (Math.random() > 0.7) return match;
+            const methods = [
+                () => n.toString(),
+                () => '(0x' + n.toString(16) + ')',
+                () => '(~~' + n + ')'
+            ];
+            return methods[Math.floor(Math.random() * methods.length)]();
+        });
+    }
 
-        while ((match = scriptTagRegex.exec(html)) !== null) {
-            const openTag = match[1];
-            let scriptContent = match[2];
-            const closeTag = match[3];
+    // Compact code (remove extra whitespace)
+    function compactCode(code) {
+        return code
+            .replace(/\/\/.*$/gm, '')  // Hapus single line comments
+            .replace(/\s+/g, ' ')       // Banyak spasi jadi satu spasi
+            .replace(/;\s*;/g, ';')     // Hapus semicolon ganda
+            .trim();
+    }
 
-            if (scriptContent.trim()) {
-                try {
-                    const obfuscatedJs = obfuscateJavaScript(scriptContent, options);
-                    const newScript = openTag + '\n' + obfuscatedJs + '\n' + closeTag;
-                    obfuscatedHtml = obfuscatedHtml.replace(match[0], newScript);
-                    scriptsProcessed++;
-                } catch (e) {
-                    console.warn("Gagal obfuscate salah satu script: ", e);
-                    // Biarkan tetap original
-                }
+    // Main obfuscation function
+    function obfuscateJavaScript(jsCode, options) {
+        if (!jsCode || !jsCode.trim()) return jsCode;
+        
+        let result = jsCode;
+        
+        try {
+            // 1. Rename identifiers
+            if (options.renameVars || options.renameFuncs) {
+                result = renameIdentifiers(result, options.renameVars, options.renameFuncs);
             }
+            
+            // 2. Encode strings
+            if (options.stringEncoding) {
+                result = processStringLiterals(result, true);
+            }
+            
+            // 3. Obfuscate numbers
+            if (options.numberObf) {
+                result = obfuscateNumbers(result);
+            }
+            
+            // 4. Compact (optional, hati-hati)
+            if (options.compact) {
+                result = compactCode(result);
+            }
+            
+            return result;
+        } catch(e) {
+            console.error('Obfuscation error:', e);
+            return jsCode; // Return original if error
         }
-        return { html: obfuscatedHtml, processed: scriptsProcessed };
+    }
+
+    // Obfuscate seluruh HTML
+    function obfuscateHtml(html, options) {
+        const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
+        let processedCount = 0;
+        
+        const result = html.replace(scriptRegex, (match, scriptContent) => {
+            if (!scriptContent || !scriptContent.trim()) return match;
+            
+            try {
+                const obfuscated = obfuscateJavaScript(scriptContent, options);
+                // Cek apakah hasilnya valid (kurung seimbang)
+                const openBraces = (obfuscated.match(/\{/g) || []).length;
+                const closeBraces = (obfuscated.match(/\}/g) || []).length;
+                if (openBraces !== closeBraces) {
+                    console.warn('Braces tidak seimbang, skip obfuscation');
+                    return match;
+                }
+                processedCount++;
+                return match.replace(scriptContent, '\n' + obfuscated + '\n');
+            } catch(e) {
+                console.warn('Gagal obfuscate script:', e);
+                return match;
+            }
+        });
+        
+        return { html: result, processed: processedCount };
     }
 
     // ========================
-    // UI Interaction
+    // UI Elements & Event Handlers
     // ========================
     const inputArea = document.getElementById('inputCode');
     const outputArea = document.getElementById('outputCode');
     const obfuscateBtn = document.getElementById('obfuscateBtn');
     const copyBtn = document.getElementById('copyBtn');
     const downloadBtn = document.getElementById('downloadBtn');
+    const testBtn = document.getElementById('testBtn');
     const clearBtn = document.getElementById('clearBtn');
     const exampleBtn = document.getElementById('exampleBtn');
     const statsSpan = document.getElementById('stats');
@@ -501,38 +492,32 @@
             renameVars: document.getElementById('optRenameVars').checked,
             renameFuncs: document.getElementById('optRenameFuncs').checked,
             stringEncoding: document.getElementById('optStringEncoding').checked,
-            deadCode: document.getElementById('optDeadCode').checked,
             compact: document.getElementById('optCompact').checked,
-            numberObf: document.getElementById('optNumberObf').checked,
-            splitStrings: document.getElementById('optSplitStrings').checked,
-            selfDefending: document.getElementById('optSelfDefending').checked
+            numberObf: document.getElementById('optNumberObf').checked
         };
     }
 
-    function updateStats(length, scriptsCount) {
-        statsSpan.innerHTML = `📊 ${length} karakter | ${scriptsCount} script di-obfuscate`;
-    }
-
     obfuscateBtn.addEventListener('click', () => {
-        const originalHtml = inputArea.value;
-        if (!originalHtml.trim()) {
+        const html = inputArea.value;
+        if (!html.trim()) {
             alert('Masukkan kode HTML terlebih dahulu!');
             return;
         }
-
-        // Tampilkan loading
+        
         obfuscateBtn.innerHTML = '⏳ Memproses...';
+        
         setTimeout(() => {
             try {
                 const options = getOptions();
-                const { html: resultHtml, processed } = obfuscateHtml(originalHtml, options);
+                const { html: resultHtml, processed } = obfuscateHtml(html, options);
                 outputArea.value = resultHtml;
-                updateStats(resultHtml.length, processed);
-            } catch (err) {
+                statsSpan.innerHTML = `✅ ${processed} script terproses | ${resultHtml.length} karakter`;
+                statsSpan.classList.remove('error-badge');
+            } catch(err) {
                 console.error(err);
-                alert('Terjadi kesalahan saat obfuscate: ' + err.message);
-                outputArea.value = '// ERROR: ' + err.message;
-                updateStats(0, 0);
+                statsSpan.innerHTML = '❌ Error: ' + err.message;
+                statsSpan.classList.add('error-badge');
+                alert('Terjadi error: ' + err.message);
             } finally {
                 obfuscateBtn.innerHTML = '✨ Obfuscate Sekarang';
             }
@@ -541,38 +526,90 @@
 
     copyBtn.addEventListener('click', () => {
         if (!outputArea.value) {
-            alert('Tidak ada hasil untuk disalin.');
+            alert('Tidak ada hasil untuk disalin');
             return;
         }
         outputArea.select();
-        document.execCommand('copy');
-        alert('✅ Kode hasil obfuscate disalin ke clipboard!');
+        navigator.clipboard.writeText(outputArea.value).then(() => {
+            alert('✅ Kode berhasil disalin!');
+        }).catch(() => {
+            alert('Gagal menyalin');
+        });
     });
 
     downloadBtn.addEventListener('click', () => {
         if (!outputArea.value) {
-            alert('Tidak ada hasil untuk di-download.');
+            alert('Tidak ada hasil untuk didownload');
             return;
         }
         const blob = new Blob([outputArea.value], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'obfuscated_output.html';
+        a.download = 'obfuscated_' + Date.now() + '.html';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     });
 
+    testBtn.addEventListener('click', () => {
+        if (!outputArea.value) {
+            alert('Tidak ada kode untuk di-test');
+            return;
+        }
+        
+        // Buat iframe untuk test eksekusi
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'fixed';
+        iframe.style.top = '10%';
+        iframe.style.left = '10%';
+        iframe.style.width = '80%';
+        iframe.style.height = '60%';
+        iframe.style.zIndex = '9999';
+        iframe.style.border = '2px solid #3b82f6';
+        iframe.style.borderRadius = '8px';
+        iframe.style.backgroundColor = '#fff';
+        
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = '✖ Tutup';
+        closeBtn.style.position = 'fixed';
+        closeBtn.style.top = '8%';
+        closeBtn.style.right = '12%';
+        closeBtn.style.zIndex = '10000';
+        closeBtn.style.padding = '5px 12px';
+        closeBtn.style.background = '#dc2626';
+        closeBtn.style.color = 'white';
+        closeBtn.style.border = 'none';
+        closeBtn.style.borderRadius = '6px';
+        closeBtn.style.cursor = 'pointer';
+        
+        closeBtn.onclick = () => {
+            document.body.removeChild(iframe);
+            document.body.removeChild(closeBtn);
+        };
+        
+        document.body.appendChild(iframe);
+        document.body.appendChild(closeBtn);
+        
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        iframeDoc.open();
+        iframeDoc.write(outputArea.value);
+        iframeDoc.close();
+        
+        iframeDoc.body.style.padding = '20px';
+        iframeDoc.body.style.fontFamily = 'monospace';
+    });
+
     clearBtn.addEventListener('click', () => {
         inputArea.value = '';
         outputArea.value = '';
         statsSpan.innerHTML = 'Siap';
+        statsSpan.classList.remove('error-badge');
     });
 
     exampleBtn.addEventListener('click', () => {
-        const example = `<!DOCTYPE html>
+        inputArea.value = `<!DOCTYPE html>
 <html>
 <head>
     <title>Demo Aplikasi</title>
@@ -603,13 +640,9 @@
     </script>
 </body>
 </html>`;
-        inputArea.value = example;
         outputArea.value = '';
         statsSpan.innerHTML = 'Contoh dimuat. Tekan Obfuscate.';
     });
-    
-    // Tooltip singkat untuk user
-    console.log('JS Obfuscator Siap | Buat sendiri');
 </script>
 </body>
 </html>

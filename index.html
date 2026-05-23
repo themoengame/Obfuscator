@@ -3,208 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Obfuscator Pro | Pengacak Kode JavaScript</title>
+    <title>JS Obfuscator Safe Edition | Tanpa Error Sintaks</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            background: linear-gradient(145deg, #0B1120 0%, #192132 100%);
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(145deg, #0a0f1e 0%, #0f172a 100%);
+            font-family: 'Segoe UI', system-ui, sans-serif;
             padding: 2rem;
             min-height: 100vh;
-            color: #E2E8F0;
+            color: #e2e8f0;
         }
-
         .container {
-            max-width: 1600px;
+            max-width: 1400px;
             margin: 0 auto;
         }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #A5F3FC, #C084FC);
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #a5f3fc, #c084fc);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.02em;
+            text-align: center;
         }
-
-        .header p {
-            color: #94A3B8;
-            margin-top: 0.5rem;
+        .sub {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 2rem;
         }
-
-        /* Grid 2 kolom */
-        .editor-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
-            margin-bottom: 1.5rem;
         }
-
-        @media (max-width: 900px) {
-            .editor-grid {
-                grid-template-columns: 1fr;
-            }
-            body { padding: 1rem; }
+        @media (max-width: 800px) {
+            .grid { grid-template-columns: 1fr; }
         }
-
-        /* Panel */
         .panel {
-            background: #0F172AD9;
-            backdrop-filter: blur(4px);
+            background: #0f172a;
             border: 1px solid #334155;
-            border-radius: 1.5rem;
+            border-radius: 1rem;
             overflow: hidden;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
-            transition: all 0.2s;
         }
-
         .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            background: #1E293B;
-            border-bottom: 1px solid #334155;
+            background: #1e293b;
+            padding: 0.75rem 1rem;
             font-weight: 600;
+            border-bottom: 1px solid #334155;
         }
-
-        .panel-header span {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
         textarea {
             width: 100%;
-            height: 480px;
-            background: #0A0F1A;
+            height: 450px;
+            background: #0a0f1a;
             border: none;
-            padding: 1.2rem;
-            font-family: 'Fira Code', 'Courier New', monospace;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
             font-size: 13px;
-            line-height: 1.5;
-            color: #E2E8F0;
+            color: #e2e8f0;
             resize: vertical;
             outline: none;
         }
-
-        textarea:focus {
-            background: #0C1220;
-        }
-
-        /* Toolbar */
         .toolbar {
-            padding: 1rem 1.5rem;
-            background: #1E293B;
+            padding: 0.75rem 1rem;
+            background: #1e293b;
             border-top: 1px solid #334155;
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 0.6rem;
+            gap: 0.5rem;
             flex-wrap: wrap;
         }
-
         button {
-            background: #3B82F6;
+            background: #3b82f6;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.6rem;
-            font-weight: 500;
-            font-size: 0.85rem;
+            padding: 0.4rem 1rem;
+            border-radius: 0.5rem;
             color: white;
             cursor: pointer;
-            transition: 0.15s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
+            font-weight: 500;
+            transition: 0.1s;
         }
-
-        button:hover {
-            background: #2563EB;
-            transform: translateY(-1px);
-        }
-
-        button.secondary {
-            background: #475569;
-        }
-        button.secondary:hover { background: #334155; }
-
-        button.warning {
-            background: #D97706;
-        }
-        button.warning:hover { background: #B45309; }
-
-        button.danger {
-            background: #DC2626;
-        }
-        button.danger:hover { background: #B91C1C; }
-
-        button.success {
-            background: #10B981;
-        }
-        button.success:hover { background: #059669; }
-
-        /* Opsi panel */
-        .options-panel {
-            background: #0F172A;
-            border-radius: 1rem;
-            padding: 1.2rem 1.5rem;
-            margin-top: 1rem;
+        button:hover { background: #2563eb; transform: translateY(-1px); }
+        .secondary { background: #475569; }
+        .secondary:hover { background: #334155; }
+        .danger { background: #dc2626; }
+        .danger:hover { background: #b91c1c; }
+        .success { background: #10b981; }
+        .options {
+            background: #0f172a;
             border: 1px solid #334155;
-        }
-
-        .options-grid {
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
             display: flex;
             flex-wrap: wrap;
-            gap: 1.2rem;
-            margin-top: 0.8rem;
+            gap: 1rem;
+            align-items: center;
         }
-
         .option {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background: #1E293B;
-            padding: 0.4rem 1rem;
+            background: #1e293b;
+            padding: 0.3rem 0.8rem;
             border-radius: 2rem;
-            transition: 0.1s;
         }
-
-        .option input {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #8B5CF6;
-        }
-
-        .stat-badge {
-            background: #0F172A;
-            padding: 0.2rem 0.8rem;
-            border-radius: 2rem;
+        .badge {
+            background: #334155;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
             font-size: 0.75rem;
-            font-family: monospace;
-            color: #94A3B8;
         }
-
         footer {
             text-align: center;
             margin-top: 2rem;
@@ -215,150 +125,120 @@
 </head>
 <body>
 <div class="container">
-    <div class="header">
-        <h1>✦ JS Obfuscator Pro ✦</h1>
-        <p>Acak JavaScript di dalam HTML — aman, stabil, tanpa error sintaks</p>
-    </div>
+    <h1>🔒 JS Obfuscator • Safe Edition</h1>
+    <div class="sub">Tidak akan pernah menghasilkan error "Unexpected end of input" — validasi sintaks otomatis</div>
 
-    <div class="editor-grid">
-        <!-- INPUT -->
+    <div class="grid">
         <div class="panel">
-            <div class="panel-header">
-                <span>📄 Kode Sumber (HTML + JS)</span>
-                <span class="stat-badge" id="inputStats">0 baris</span>
-            </div>
-            <textarea id="inputCode" placeholder="Tempel kode HTML Anda di sini...&#10;&#10;Contoh:&#10;&lt;script&gt;&#10;  function salam(nama) {&#10;    alert('Halo ' + nama);&#10;  }&#10;&lt;/script&gt;"></textarea>
+            <div class="panel-header">📄 Kode HTML / JS Asli</div>
+            <textarea id="inputCode" placeholder="Tempel kode HTML yang mengandung JavaScript...&#10;&#10;Contoh:&#10;&lt;script&gt;&#10;  function tes() { alert('Halo'); }&#10;&lt;/script&gt;"></textarea>
             <div class="toolbar">
-                <div class="btn-group">
-                    <button id="loadExampleBtn" class="secondary">📋 Contoh HTML</button>
-                    <button id="clearInputBtn" class="danger">🗑 Bersihkan</button>
-                </div>
+                <button id="exampleBtn" class="secondary">📋 Contoh</button>
+                <button id="clearBtn" class="danger">🗑 Clear</button>
             </div>
         </div>
-
-        <!-- OUTPUT -->
         <div class="panel">
-            <div class="panel-header">
-                <span>🔀 Hasil Obfuscated</span>
-                <span class="stat-badge" id="outputStats">Belum diobfuscate</span>
-            </div>
-            <textarea id="outputCode" readonly placeholder="Hasil obfuscation akan muncul di sini..."></textarea>
+            <div class="panel-header">🔀 Hasil Obfuscated (divalidasi)</div>
+            <textarea id="outputCode" readonly placeholder="Hasil akan muncul di sini..."></textarea>
             <div class="toolbar">
-                <div class="btn-group">
-                    <button id="obfuscateBtn">✨ Obfuscate Sekarang</button>
-                    <button id="copyOutputBtn" class="secondary">📋 Salin</button>
-                    <button id="downloadBtn" class="success">💾 Download .html</button>
-                    <button id="testRunBtn" class="warning">▶ Test Jalan</button>
-                </div>
+                <button id="obfuscateBtn">✨ Obfuscate & Validasi</button>
+                <button id="copyBtn" class="secondary">📋 Salin</button>
+                <button id="downloadBtn" class="success">💾 Download .html</button>
+                <button id="testBtn" class="secondary">▶ Test Jalan</button>
             </div>
         </div>
     </div>
 
-    <!-- Opsi Obfuscation (stabil & aman) -->
-    <div class="options-panel">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <strong>⚙️ Teknik Obfuscation (pilih sesuai kebutuhan)</strong>
-            <span style="font-size:12px; color:#94A3B8;">⚠️ dead-code & self-defending dihapus untuk hindari error</span>
-        </div>
-        <div class="options-grid">
-            <label class="option"><input type="checkbox" id="optRenameVars" checked> 🧬 Rename Variabel</label>
-            <label class="option"><input type="checkbox" id="optRenameFuncs" checked> 🔁 Rename Fungsi</label>
-            <label class="option"><input type="checkbox" id="optEncodeStrings" checked> 🔐 Encode String (Base64)</label>
-            <label class="option"><input type="checkbox" id="optObfNumbers"> 🔢 Obfuscate Angka</label>
-            <label class="option"><input type="checkbox" id="optCompact"> 📦 Compact (hilangkan spasi/baris)</label>
-        </div>
+    <div class="options">
+        <span class="badge">⚙️ Opsi (semua aman, tanpa dead code)</span>
+        <label class="option"><input type="checkbox" id="optRename" checked> Rename variabel/fungsi</label>
+        <label class="option"><input type="checkbox" id="optEncode" checked> Encode string ke Base64</label>
+        <label class="option"><input type="checkbox" id="optCompact"> Compact (hapus spasi/komentar)</label>
+        <span style="font-size:12px; color:#94a3b8;">✅ Setiap hasil diuji dengan Function() sebelum ditampilkan</span>
     </div>
-    <footer>
-        ✅ Client-side only — kode Anda tidak dikirim ke server. ✅ Setiap obfuscation mempertahankan struktur & braces seimbang.
-    </footer>
+    <footer>⚠️ Jika obfuscation berpotensi error, kode asli akan dipertahankan. Tidak ada "Unexpected end of input".</footer>
 </div>
 
 <script>
     // ============================================================
-    //  OBFUSCATOR ENGINE (SAFE, TANPA DEAD CODE / SELF DEFENDING)
+    //  SAFE OBFUSCATOR - TIDAK PERNAH MENGHASILKAN SYNTAX ERROR
     // ============================================================
     
-    // Helper: random string (tidak bentrok keyword)
+    // Helper: random nama variabel
     function randomName(len = 6) {
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$';
         let name = '';
         for (let i = 0; i < len; i++) name += chars[Math.floor(Math.random() * chars.length)];
-        // Hindari keyword JS dasar
-        const reserved = new Set(['var','let','const','function','return','if','else','for','while','break','continue','switch','case','default','true','false','null','undefined','NaN','this','new','delete','typeof','instanceof','class','extends','super','import','export','default','await','yield','void','with','debugger','eval','arguments']);
+        const reserved = new Set(['var','let','const','function','return','if','else','for','while','break','continue','switch','case','default','true','false','null','undefined','NaN','this','new','delete','typeof','instanceof','class','extends','super','import','export','default','await','yield','void','with','debugger','eval','arguments','console','alert','prompt','confirm','window','document','Object','Array','String','Number','Boolean','Function','RegExp','Date','Error','Math','JSON','Promise','Symbol','Map','Set','WeakMap','WeakSet','Proxy','Reflect','Intl','WebAssembly','atob','btoa','encodeURI','decodeURI','encodeURIComponent','decodeURIComponent','parseInt','parseFloat','isNaN','isFinite','escape','unescape']);
         if (reserved.has(name)) return '_' + name;
         return name;
     }
-
-    // rename identifiers secara aman (tanpa merusak string literal)
-    function safeRenameIdentifiers(code, renameVars, renameFuncs) {
-        if (!renameVars && !renameFuncs) return code;
+    
+    // Rename identifiers dengan aman (hanya var, let, const, parameter fungsi, dan nama fungsi)
+    function safeRename(code, renameEnabled) {
+        if (!renameEnabled) return code;
         
-        // mapping nama lama -> nama baru
         const renameMap = new Map();
-        const usedNames = new Set();
+        const used = new Set();
         
-        // 1. Tangkap deklarasi var, let, const
-        if (renameVars) {
-            const varDeclRegex = /\b(?:var|let|const)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g;
-            let match;
-            while ((match = varDeclRegex.exec(code)) !== null) {
-                let old = match[1];
-                if (!renameMap.has(old)) {
-                    let newName = randomName(5);
-                    while (usedNames.has(newName)) newName = randomName(5);
-                    usedNames.add(newName);
-                    renameMap.set(old, newName);
-                }
+        // 1. Tangkap deklarasi var/let/const
+        const varPattern = /\b(?:var|let|const)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g;
+        let match;
+        while ((match = varPattern.exec(code)) !== null) {
+            let old = match[1];
+            if (!renameMap.has(old)) {
+                let newName = randomName(5);
+                while (used.has(newName)) newName = randomName(5);
+                used.add(newName);
+                renameMap.set(old, newName);
             }
         }
         
-        // 2. Tangkap parameter fungsi (function name(param1, param2))
-        const paramRegex = /function\s*\w*\s*\(([^)]*)\)/g;
-        let m;
-        while ((m = paramRegex.exec(code)) !== null) {
-            const params = m[1].split(',').map(p => p.trim()).filter(p => p && /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(p));
+        // 2. Parameter fungsi (function name(parameter))
+        const paramPattern = /function\s*\w*\s*\(([^)]*)\)/g;
+        while ((match = paramPattern.exec(code)) !== null) {
+            let params = match[1].split(',').map(p => p.trim()).filter(p => p && /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(p));
             for (let param of params) {
                 if (!renameMap.has(param)) {
                     let newName = randomName(4);
-                    while (usedNames.has(newName)) newName = randomName(4);
-                    usedNames.add(newName);
+                    while (used.has(newName)) newName = randomName(4);
+                    used.add(newName);
                     renameMap.set(param, newName);
                 }
             }
         }
         
-        // 3. Tangkap nama fungsi (function funcName)
-        if (renameFuncs) {
-            const funcNameRegex = /\bfunction\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g;
-            while ((m = funcNameRegex.exec(code)) !== null) {
-                let oldFunc = m[1];
-                if (!renameMap.has(oldFunc)) {
-                    let newName = randomName(6);
-                    while (usedNames.has(newName)) newName = randomName(6);
-                    usedNames.add(newName);
-                    renameMap.set(oldFunc, newName);
-                }
+        // 3. Nama fungsi (function namaFunc)
+        const funcNamePattern = /\bfunction\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g;
+        while ((match = funcNamePattern.exec(code)) !== null) {
+            let old = match[1];
+            if (!renameMap.has(old)) {
+                let newName = randomName(6);
+                while (used.has(newName)) newName = randomName(6);
+                used.add(newName);
+                renameMap.set(old, newName);
             }
         }
         
-        // Terapkan rename (gunakan word boundary)
+        // 4. Arrow function parameter sederhana (single param tanpa kurung) - optional, hati-hati
+        // Abaikan untuk keamanan, karena bisa merusak
+        
+        // Terapkan rename
         let result = code;
-        for (let [oldId, newId] of renameMap.entries()) {
+        for (let [oldId, newId] of renameMap) {
             const regex = new RegExp('\\b' + oldId + '\\b', 'g');
             result = result.replace(regex, newId);
         }
         return result;
     }
     
-    // Encode string literal ke base64 (safe eval)
-    function encodeStringsBase64(jsCode) {
-        // Hanya string single/double quote yang tidak mengandung pola kompleks.
-        // Gunakan pendekatan bertahap agar tidak merusak template literal (abaikan `${}`)
-        // Tapi untuk obfuscator umum, handle '...' dan "..."
-        return jsCode.replace(/(['"])((?:(?!\1).)*?)\1/g, (match, quote, content) => {
-            if (content.length === 0) return match;
-            // Hindari encode jika sudah ada atob( ... ) ?
+    // Encode string literal ke Base64 (aman, tidak merusak sintaks)
+    function encodeStringsBase64(code) {
+        // Hanya untuk string dengan kutip tunggal atau ganda, hindari template literal
+        return code.replace(/('.*?'|".*?")/gs, (match) => {
             if (match.includes('atob(')) return match;
+            const content = match.slice(1, -1);
+            if (content.length === 0) return match;
             try {
                 const encoded = btoa(unescape(encodeURIComponent(content)));
                 return `atob("${encoded}")`;
@@ -368,253 +248,217 @@
         });
     }
     
-    // Obfuscate angka sederhana (ubah ke hex / aritmatika, pastikan tidak merusak)
-    function obfuscateNumbersSafe(code) {
-        return code.replace(/\b(\d+)\b/g, (numStr) => {
-            let num = parseInt(numStr, 10);
-            if (isNaN(num)) return numStr;
-            if (num < 0 || num > 5000) return numStr; // hindari terlalu besar
-            if (Math.random() > 0.65) return numStr;
-            const r = Math.floor(Math.random() * 3);
-            if (r === 0) return '(0x' + num.toString(16) + ')';
-            if (r === 1) return '(~~' + num + ')';
-            return numStr;
-        });
+    // Compact: hapus komentar dan spasi berlebih (tanpa menghilangkan titik koma penting)
+    function compactCode(code) {
+        let result = code.replace(/\/\/.*$/gm, '');          // single line comments
+        result = result.replace(/\/\*[\s\S]*?\*\//g, '');    // multi line comments
+        result = result.replace(/\s+/g, ' ');                // multiple spaces jadi satu
+        result = result.replace(/;\s*;/g, ';');              // hapus semicolon ganda
+        result = result.replace(/^\s+|\s+$/g, '');           // trim
+        return result;
     }
     
-    // Compact (hilangkan spasi & baris berlebih, tapi jangan sampai hilangkan titik koma penting)
-    function compactJavaScript(code) {
-        // Hapus komentar baris
-        let withoutComments = code.replace(/\/\/.*$/gm, '');
-        // Hapus komentar blok
-        withoutComments = withoutComments.replace(/\/\*[\s\S]*?\*\//g, '');
-        // Ganti whitespace berlebih dengan spasi tunggal
-        let compacted = withoutComments.replace(/\s+/g, ' ');
-        // perbaiki titik koma ganda
-        compacted = compacted.replace(/;\s*;/g, ';');
-        return compacted.trim();
-    }
-    
-    // Obfuscate utama untuk satu blok JavaScript
-    function obfuscateJSBlock(jsSource, options) {
-        if (!jsSource || typeof jsSource !== 'string') return jsSource;
-        let result = jsSource;
+    // Validasi sintaks JavaScript menggunakan Function constructor
+    // Jika error, return false beserta pesan error
+    function isValidJavaScript(code) {
+        if (!code.trim()) return true;
         try {
-            // 1. rename identifiers
-            if (options.renameVars || options.renameFuncs) {
-                result = safeRenameIdentifiers(result, options.renameVars, options.renameFuncs);
-            }
-            // 2. encode string (base64)
-            if (options.encodeStrings) {
-                result = encodeStringsBase64(result);
-            }
-            // 3. obfuscate angka
-            if (options.obfNumbers) {
-                result = obfuscateNumbersSafe(result);
-            }
-            // 4. compact (optional)
-            if (options.compact) {
-                result = compactJavaScript(result);
-            }
-            // VALIDASI braces: harus seimbang
-            const openBraces = (result.match(/\{/g) || []).length;
-            const closeBraces = (result.match(/\}/g) || []).length;
-            if (openBraces !== closeBraces) {
-                console.warn("Braces tidak seimbang, gunakan kode asli sebagai fallback");
-                return jsSource;
-            }
-            return result;
-        } catch (err) {
-            console.error("Obfuscation error:", err);
-            return jsSource;
+            // Coba buat function dari kode (tidak dijalankan, hanya parsing)
+            new Function(code);
+            return true;
+        } catch(e) {
+            console.warn("Syntax error detected:", e.message);
+            return false;
         }
     }
     
-    // Proses HTML: ekstrak semua tag <script> ... </script>, obfuscate kontennya
-    function obfuscateHtmlDocument(html, options) {
-        // Regex untuk capture <script>......</script> (case-insensitive, non greedy)
-        const scriptTagRegex = /(<script\b[^>]*>)([\s\S]*?)(<\/script>)/gi;
-        let processedCount = 0;
-        let lastIndex = 0;
-        let resultHtml = '';
-        let match;
+    // Obfuscate satu blok JS (dengan fallback ke kode asli jika error)
+    function obfuscateJS(jsCode, options) {
+        if (!jsCode || jsCode.trim() === "") return jsCode;
         
-        // Iterasi manual untuk preserve posisi
-        let tempHtml = html;
-        let output = tempHtml.replace(scriptTagRegex, (fullMatch, openTag, scriptContent, closeTag) => {
-            if (!scriptContent || scriptContent.trim().length === 0) {
-                return fullMatch;
-            }
-            try {
-                const obfuscated = obfuscateJSBlock(scriptContent, options);
-                // cek apakah obfuscated mengandung syntax error dasar? opsional tapi kita yakin.
-                processedCount++;
-                return openTag + '\n' + obfuscated + '\n' + closeTag;
-            } catch (e) {
-                console.warn("gagal obfuscate satu script, biarkan asli");
-                return fullMatch;
-            }
-        });
+        let original = jsCode;
+        let result = jsCode;
         
-        return { html: output, processed: processedCount };
+        // Terapkan transformasi bertahap
+        if (options.rename) {
+            result = safeRename(result, true);
+        }
+        if (options.encode) {
+            result = encodeStringsBase64(result);
+        }
+        if (options.compact) {
+            result = compactCode(result);
+        }
+        
+        // Validasi apakah hasil masih valid secara sintaks
+        if (isValidJavaScript(result)) {
+            return result;
+        } else {
+            // Coba tanpa compact (karena compact sering menyebabkan error)
+            if (options.compact) {
+                let resultNoCompact = jsCode;
+                if (options.rename) resultNoCompact = safeRename(resultNoCompact, true);
+                if (options.encode) resultNoCompact = encodeStringsBase64(resultNoCompact);
+                if (isValidJavaScript(resultNoCompact)) {
+                    console.warn("Compact menyebabkan error, hasil tanpa compact digunakan");
+                    return resultNoCompact;
+                }
+            }
+            // Coba tanpa rename (hanya encode)
+            if (options.encode) {
+                let resultOnlyEncode = encodeStringsBase64(jsCode);
+                if (isValidJavaScript(resultOnlyEncode)) {
+                    console.warn("Rename menyebabkan error, hanya encode yang digunakan");
+                    return resultOnlyEncode;
+                }
+            }
+            // Fallback ke kode asli
+            console.warn("Semua transformasi gagal validasi, gunakan kode asli");
+            return original;
+        }
     }
     
-    // ==================== UI & Interaksi ====================
-    const inputTextarea = document.getElementById('inputCode');
-    const outputTextarea = document.getElementById('outputCode');
-    const obfuscateBtn = document.getElementById('obfuscateBtn');
-    const copyBtn = document.getElementById('copyOutputBtn');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const testBtn = document.getElementById('testRunBtn');
-    const clearInputBtn = document.getElementById('clearInputBtn');
-    const loadExampleBtn = document.getElementById('loadExampleBtn');
-    const inputStatsSpan = document.getElementById('inputStats');
-    const outputStatsSpan = document.getElementById('outputStats');
+    // Proses HTML: temukan semua tag script, obfuscate isinya
+    function obfuscateHtml(html, options) {
+        const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
+        let processedCount = 0;
+        
+        const resultHtml = html.replace(scriptRegex, (fullMatch, scriptContent) => {
+            if (!scriptContent || scriptContent.trim() === "") return fullMatch;
+            const obfuscated = obfuscateJS(scriptContent, options);
+            if (obfuscated !== scriptContent) processedCount++;
+            return fullMatch.replace(scriptContent, '\n' + obfuscated + '\n');
+        });
+        
+        return { html: resultHtml, processed: processedCount };
+    }
     
-    // Ambil opsi
-    function getCurrentOptions() {
+    // ==================== UI ====================
+    const inputArea = document.getElementById('inputCode');
+    const outputArea = document.getElementById('outputCode');
+    const obfuscateBtn = document.getElementById('obfuscateBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const testBtn = document.getElementById('testBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const exampleBtn = document.getElementById('exampleBtn');
+    
+    function getOptions() {
         return {
-            renameVars: document.getElementById('optRenameVars').checked,
-            renameFuncs: document.getElementById('optRenameFuncs').checked,
-            encodeStrings: document.getElementById('optEncodeStrings').checked,
-            obfNumbers: document.getElementById('optObfNumbers').checked,
+            rename: document.getElementById('optRename').checked,
+            encode: document.getElementById('optEncode').checked,
             compact: document.getElementById('optCompact').checked
         };
     }
     
-    function updateStats() {
-        const inputLen = inputTextarea.value.length;
-        const inputLines = inputTextarea.value.split('\n').length;
-        inputStatsSpan.innerText = `${inputLines} baris | ${inputLen} char`;
-        const outLen = outputTextarea.value.length;
-        outputStatsSpan.innerText = outLen ? `${outLen} char` : 'Belum ada hasil';
-    }
-    
-    inputTextarea.addEventListener('input', updateStats);
-    
     obfuscateBtn.addEventListener('click', () => {
-        const originalHtml = inputTextarea.value;
-        if (!originalHtml.trim()) {
-            alert('Masukkan kode HTML / JavaScript terlebih dahulu!');
+        const html = inputArea.value;
+        if (!html.trim()) {
+            alert('Masukkan kode HTML terlebih dahulu');
             return;
         }
-        obfuscateBtn.innerHTML = '⏳ Memproses...';
+        
+        obfuscateBtn.textContent = '⏳ Memproses...';
         setTimeout(() => {
             try {
-                const opts = getCurrentOptions();
-                const { html: resultHtml, processed } = obfuscateHtmlDocument(originalHtml, opts);
-                outputTextarea.value = resultHtml;
-                updateStats();
-                outputStatsSpan.innerText = `${resultHtml.length} char | ${processed} script diobfuscate`;
-                alert(`✅ Sukses! ${processed} buah tag <script> berhasil diacak.`);
+                const opts = getOptions();
+                const { html: result, processed } = obfuscateHtml(html, opts);
+                outputArea.value = result;
+                alert(`✅ Selesai. ${processed} skrip diobfuscate. (Jika ada error sintaks, kode asli dipertahankan)`);
             } catch (err) {
                 console.error(err);
-                alert('Terjadi error: ' + err.message);
-                outputTextarea.value = '// ERROR: ' + err.message;
+                alert('Error: ' + err.message);
+                outputArea.value = '// ERROR: ' + err.message;
             } finally {
-                obfuscateBtn.innerHTML = '✨ Obfuscate Sekarang';
+                obfuscateBtn.textContent = '✨ Obfuscate & Validasi';
             }
         }, 20);
     });
     
     copyBtn.addEventListener('click', () => {
-        if (!outputTextarea.value) return alert('Tidak ada hasil untuk disalin');
-        outputTextarea.select();
-        navigator.clipboard.writeText(outputTextarea.value).then(() => alert('✅ Tersalin!')).catch(() => alert('Gagal menyalin'));
+        if (!outputArea.value) return alert('Tidak ada hasil');
+        outputArea.select();
+        navigator.clipboard.writeText(outputArea.value).then(() => alert('Tersalin'));
     });
     
     downloadBtn.addEventListener('click', () => {
-        if (!outputTextarea.value) return alert('Tidak ada hasil');
-        const blob = new Blob([outputTextarea.value], { type: 'text/html' });
+        if (!outputArea.value) return alert('Tidak ada hasil');
+        const blob = new Blob([outputArea.value], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `obfuscated_${Date.now()}.html`;
-        document.body.appendChild(a);
+        a.download = 'safe_obfuscated.html';
         a.click();
-        document.body.removeChild(a);
         URL.revokeObjectURL(url);
     });
     
     testBtn.addEventListener('click', () => {
-        const codeToTest = outputTextarea.value;
-        if (!codeToTest) return alert('Tidak ada kode hasil obfuscate untuk diuji');
-        // Buat iframe popup untuk menjalankan
+        const code = outputArea.value;
+        if (!code) return alert('Tidak ada kode untuk diuji');
         const iframe = document.createElement('iframe');
         iframe.style.position = 'fixed';
-        iframe.style.top = '5%';
-        iframe.style.left = '5%';
-        iframe.style.width = '90%';
-        iframe.style.height = '80%';
+        iframe.style.top = '10%';
+        iframe.style.left = '10%';
+        iframe.style.width = '80%';
+        iframe.style.height = '70%';
         iframe.style.zIndex = '10000';
-        iframe.style.border = '2px solid #8B5CF6';
+        iframe.style.border = '2px solid #3b82f6';
         iframe.style.borderRadius = '12px';
-        iframe.style.backgroundColor = '#fff';
-        const closeBtn = document.createElement('button');
-        closeBtn.innerText = '✖ Tutup Preview';
-        closeBtn.style.position = 'fixed';
-        closeBtn.style.top = '3%';
-        closeBtn.style.right = '8%';
-        closeBtn.style.zIndex = '10001';
-        closeBtn.style.background = '#EF4444';
-        closeBtn.style.border = 'none';
-        closeBtn.style.padding = '6px 16px';
-        closeBtn.style.borderRadius = '30px';
-        closeBtn.style.color = 'white';
-        closeBtn.style.cursor = 'pointer';
-        closeBtn.onclick = () => {
+        iframe.style.background = 'white';
+        const close = document.createElement('button');
+        close.textContent = '✖ Tutup';
+        close.style.position = 'fixed';
+        close.style.top = '8%';
+        close.style.right = '12%';
+        close.style.zIndex = '10001';
+        close.style.background = '#dc2626';
+        close.style.color = 'white';
+        close.style.border = 'none';
+        close.style.padding = '4px 12px';
+        close.style.borderRadius = '20px';
+        close.style.cursor = 'pointer';
+        close.onclick = () => {
             document.body.removeChild(iframe);
-            document.body.removeChild(closeBtn);
+            document.body.removeChild(close);
         };
         document.body.appendChild(iframe);
-        document.body.appendChild(closeBtn);
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        iframeDoc.open();
-        iframeDoc.write(codeToTest);
-        iframeDoc.close();
+        document.body.appendChild(close);
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        doc.open();
+        doc.write(code);
+        doc.close();
     });
     
-    clearInputBtn.addEventListener('click', () => {
-        inputTextarea.value = '';
-        outputTextarea.value = '';
-        updateStats();
-        outputStatsSpan.innerText = 'Belum ada hasil';
+    clearBtn.addEventListener('click', () => {
+        inputArea.value = '';
+        outputArea.value = '';
     });
     
-    loadExampleBtn.addEventListener('click', () => {
-        const example = `<!DOCTYPE html>
+    exampleBtn.addEventListener('click', () => {
+        inputArea.value = `<!DOCTYPE html>
 <html>
-<head><title>Demo Obfuscator</title></head>
+<head><title>Demo Safe Obfuscator</title></head>
 <body>
-    <h2>Selamat Datang di Obfuscator Pro</h2>
-    <button onclick="tampilkanPesan()">Klik Saya</button>
+    <h1>Halo, ini contoh</h1>
+    <button onclick="sapa()">Klik</button>
     <script>
-        // Contoh fungsi sederhana
-        function tampilkanPesan() {
-            let user = prompt("Masukkan nama Anda:");
-            if (user && user !== "") {
-                alert("Halo, " + user + "! Selamat mencoba obfuscator.");
-                console.log("Nama user:", user);
+        function sapa() {
+            let nama = prompt("Siapa nama Anda?");
+            if (nama && nama !== "") {
+                alert("Halo " + nama + ", selamat datang!");
+                console.log("Nama:", nama);
             } else {
                 alert("Nama tidak boleh kosong!");
             }
         }
-        
-        // Variabel rahasia
         const API_KEY = "rahasia123";
-        let hitung = 42 * 2;
-        console.log("Kunci:", API_KEY, "Hasil:", hitung);
+        let hasil = 10 * 5;
+        console.log(API_KEY, hasil);
     </script>
 </body>
 </html>`;
-        inputTextarea.value = example;
-        updateStats();
-        outputTextarea.value = '';
-        outputStatsSpan.innerText = 'Contoh siap, klik Obfuscate';
+        outputArea.value = '';
     });
-    
-    // Inisialisasi stat
-    updateStats();
 </script>
 </body>
 </html>

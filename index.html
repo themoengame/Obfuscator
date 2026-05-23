@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Obfuscator Pro - Upload, Obfuscate, Download</title>
+    <title>JS Obfuscator - Pengacak Kode JavaScript</title>
     <style>
         * {
             box-sizing: border-box;
@@ -172,51 +172,6 @@
             background: #b91c1c;
         }
 
-        button.success {
-            background: #10b981;
-        }
-
-        button.success:hover {
-            background: #059669;
-        }
-
-        .file-upload-area {
-            border: 2px dashed #475569;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 15px;
-            background: #0f172a;
-            transition: all 0.2s;
-        }
-
-        .file-upload-area:hover {
-            border-color: #818cf8;
-            background: #1e293b;
-        }
-
-        .file-upload-area input {
-            display: none;
-        }
-
-        .file-upload-area label {
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: #3b82f6;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-        }
-
-        .file-info {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
         .info-bar {
             display: flex;
             justify-content: space-between;
@@ -232,11 +187,6 @@
             font-size: 12px;
         }
 
-        .badge-warning {
-            background: #f59e0b;
-            color: #000;
-        }
-
         footer {
             text-align: center;
             margin-top: 30px;
@@ -249,61 +199,25 @@
             padding: 5px 12px;
             font-size: 12px;
         }
-
-        .status-message {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #10b981;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            animation: slideIn 0.3s ease;
-            z-index: 1000;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>🔒 JS Obfuscator Pro</h1>
-    <div class="subtitle">Upload HTML → Obfuscate JS → Download → Plus Proteksi Ekstra</div>
+    <h1>🔒 JS Obfuscator</h1>
+    <div class="subtitle">Acak kode JavaScript dalam HTML — Tetap berfungsi, sulit dibaca</div>
 
     <div class="main-grid">
         <!-- Panel Kode Asli -->
         <div class="panel">
             <h3>📄 Kode HTML Asli</h3>
-            
-            <!-- Upload Area -->
-            <div class="file-upload-area">
-                <input type="file" id="fileUpload" accept=".html,.htm">
-                <label for="fileUpload">
-                    📁 Upload File HTML
-                </label>
-                <div class="file-info" id="fileInfo">
-                    Belum ada file dipilih
-                </div>
-            </div>
-            
-            <textarea id="inputCode" placeholder="Atau tempelkan kode HTML Anda di sini...&#10;&#10;Contoh:&#10;&lt;script&gt;&#10;  function halo(nama) {&#10;    alert(&#39;Halo, &#39; + nama);&#10;  }&#10;  halo(&#39;Dunia&#39;);&#10;&lt;/script&gt;"></textarea>
-            
+            <textarea id="inputCode" placeholder="Tempelkan kode HTML Anda di sini...&#10;&#10;Contoh:&#10;&lt;script&gt;&#10;  function halo(nama) {&#10;    alert(&#39;Halo, &#39; + nama);&#10;  }&#10;  halo(&#39;Dunia&#39;);&#10;&lt;/script&gt;"></textarea>
             <div class="button-group">
                 <button id="obfuscateBtn" class="primary">✨ Obfuscate Sekarang</button>
                 <button id="exampleBtn" class="secondary example-btn">📋 Muat Contoh</button>
                 <button id="clearBtn" class="danger">🗑️ Clear</button>
             </div>
             <div class="info-bar">
-                <span>💡 CSS dan struktur HTML tetap utuh. Hanya JS yang diacak.</span>
+                <span>💡 Tips: Obfuscator hanya akan mengacak isi tag &lt;script&gt; — struktur HTML tetap utuh</span>
             </div>
         </div>
 
@@ -313,7 +227,7 @@
             <textarea id="outputCode" readonly placeholder="Hasil obfuscation akan muncul di sini..."></textarea>
             <div class="button-group">
                 <button id="copyBtn" class="secondary">📋 Salin ke Clipboard</button>
-                <button id="downloadBtn" class="success">💾 Download HTML</button>
+                <button id="downloadBtn" class="secondary">💾 Download sebagai .html</button>
             </div>
             <div class="info-bar">
                 <span>✅ Kode sudah diacak — Tetap bisa dijalankan di browser</span>
@@ -336,7 +250,7 @@
             </div>
             <div class="option-item">
                 <input type="checkbox" id="optStringEncoding" checked> 
-                <label>🔐 Encode String (Base64)</label>
+                <label>🔐 Encode String (Hex/Base64)</label>
             </div>
             <div class="option-item">
                 <input type="checkbox" id="optDeadCode" checked> 
@@ -359,35 +273,8 @@
                 <label>🛡️ Self Defending (beta)</label>
             </div>
         </div>
-        
-        <!-- Proteksi Tambahan -->
-        <h3 style="margin-top: 20px;">🛡️ Proteksi Tambahan (Akan Ditambahkan ke Output)</h3>
-        <div class="options-grid">
-            <div class="option-item">
-                <input type="checkbox" id="optDisableRightClick"> 
-                <label>🚫 Disable Klik Kanan</label>
-            </div>
-            <div class="option-item">
-                <input type="checkbox" id="optDisableDrag"> 
-                <label>📸 Disable Drag & Drop (anti-copy gambar)</label>
-            </div>
-            <div class="option-item">
-                <input type="checkbox" id="optDisableDevTools"> 
-                <label>🔧 Disable DevTools (F12/Ctrl+Shift+I)</label>
-            </div>
-            <div class="option-item">
-                <input type="checkbox" id="optDisableSelect"> 
-                <label>📝 Disable Text Selection</label>
-            </div>
-            <div class="option-item">
-                <input type="checkbox" id="optDisableCopy"> 
-                <label>📋 Disable Copy (Ctrl+C)</label>
-            </div>
-        </div>
-        
         <div class="info-bar" style="margin-top: 10px;">
-            <span>⚠️ Proteksi tambahan ditambahkan ke halaman hasil obfuscation.</span>
-            <span class="badge badge-warning">Anti-Copy & Anti-Inspect</span>
+            <span>⚠️ Mode "Self Defending" membuat kode sulit di-debug (lebih agresif).</span>
         </div>
     </div>
     <footer>
@@ -405,12 +292,14 @@
         for (let i = 0; i < length; i++) {
             result += chars[Math.floor(Math.random() * chars.length)];
         }
+        // Hindari keyword JS
         if (/^(var|let|const|function|return|if|else|for|while|break|continue|switch|case|default)$/.test(result)) {
             return result + '_';
         }
         return result;
     }
 
+    // Encode string ke Hex atau Base64
     function encodeString(str, type = 'base64') {
         if (type === 'base64') {
             return 'atob("' + btoa(unescape(encodeURIComponent(str))) + '")';
@@ -423,6 +312,7 @@
         }
     }
 
+    // Obfuscate angka: 42 -> (40+2) atau 0x2A
     function obfuscateNumber(num) {
         const methods = [
             () => num.toString(),
@@ -435,11 +325,14 @@
         return methods[idx]();
     }
 
+    // Injeksi dead code (kode yang tidak akan pernah dieksekusi)
     function injectDeadCode(code) {
         const deadStub = `if(false){var _dc_${randomString(4)}="${randomString(10)}";console.log("dead");}`;
+        // Sisipkan di awal dan akhir fungsi / blok
         return deadStub + ';' + code + ';' + deadStub;
     }
 
+    // Split string literal menjadi potongan + join
     function splitStringLiteral(str) {
         if (str.length < 8) return JSON.stringify(str);
         const part1 = str.slice(0, Math.floor(str.length / 2));
@@ -447,10 +340,13 @@
         return `(${JSON.stringify(part1)}+${JSON.stringify(part2)})`;
     }
 
+    // Proses literal string dalam AST simulasi (regex based for demo)
     function processStringLiterals(code, encoding, splitStrings) {
+        // Regex untuk mendeteksi string literal (sederhana, hindari kompleksitas)
         return code.replace(/('.*?'|".*?")/gs, (match) => {
             if (!encoding && !splitStrings) return match;
             let content = match.slice(1, -1);
+            // Cegah obfuscate berlebihan pada string kosong
             if (content.length === 0) return match;
             let result;
             if (encoding && Math.random() > 0.3) {
@@ -464,11 +360,16 @@
         });
     }
 
+    // Rename variabel & fungsi sederhana (menggunakan regex + mapping)
     function renameIdentifiers(code, renameVars, renameFuncs) {
         if (!renameVars && !renameFuncs) return code;
+
+        // Pola: var / let / const + spasi + identifier
+        // Pendekatan: ekstrak semua identifier yang mungkin lalu acak
         let identifierMap = new Map();
         let usedNames = new Set();
 
+        // Temukan var/let/const deklarasi
         const varPattern = /\b(?:var|let|const)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g;
         let match;
         while ((match = varPattern.exec(code)) !== null) {
@@ -481,6 +382,7 @@
             }
         }
 
+        // Temukan nama fungsi: function namaFunc()
         if (renameFuncs) {
             const funcPattern = /\bfunction\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g;
             while ((match = funcPattern.exec(code)) !== null) {
@@ -494,6 +396,7 @@
             }
         }
 
+        // Terapkan rename (boundary word)
         let renamedCode = code;
         for (let [oldId, newId] of identifierMap.entries()) {
             const regex = new RegExp('\\b' + oldId + '\\b', 'g');
@@ -502,18 +405,22 @@
         return renamedCode;
     }
 
+    // Fungsi utama obfuscate kode JS
     function obfuscateJavaScript(jsCode, options) {
         if (!jsCode.trim()) return jsCode;
         let result = jsCode;
 
+        // 1. Rename identifiers
         if (options.renameVars || options.renameFuncs) {
             result = renameIdentifiers(result, options.renameVars, options.renameFuncs);
         }
 
+        // 2. Encode / obfuscate string literals
         if (options.stringEncoding || options.splitStrings) {
             result = processStringLiterals(result, options.stringEncoding, options.splitStrings);
         }
 
+        // 3. Obfuscate angka
         if (options.numberObf) {
             result = result.replace(/\b\d+\b/g, (numStr) => {
                 let num = parseInt(numStr);
@@ -523,19 +430,24 @@
             });
         }
 
+        // 4. Dead code injection
         if (options.deadCode) {
+            // sisipkan di setiap function, tapi secara global cukup diselipkan beberapa kali
             result = injectDeadCode(result);
             if (result.indexOf('function') !== -1) {
                 result = result.replace(/\{/g, '{' + injectDeadCode('') + ';');
             }
         }
 
+        // 5. Compact: hapus whitespace berlebih
         if (options.compact) {
             result = result.replace(/\s+/g, ' ').replace(/;\s*;/g, ';').trim();
+            // hapus komentar
             result = result.replace(/\/\/.*?($|\n)/g, '');
             result = result.replace(/\/\*[\s\S]*?\*\//g, '');
         }
 
+        // 6. Self defending sederhana (wrap di try-catch plus integrity check)
         if (options.selfDefending) {
             let wrappedCode = result;
             result = `(function(){var _sd=true;try{(function(){${wrappedCode}})();}catch(e){_sd=false;}if(!_sd||typeof window!=='undefined'&&window.name!=='__protect'){throw new Error('Invalid execution');}})();`;
@@ -544,88 +456,9 @@
         return result;
     }
 
-    // ========================
-    // GENERATE PROTEKSI SCRIPT
-    // ========================
-    function generateProtectionScript() {
-        const protections = [];
-        
-        if (document.getElementById('optDisableRightClick').checked) {
-            protections.push(`
-                // Disable Right Click
-                document.addEventListener('contextmenu', function(e) {
-                    e.preventDefault();
-                    return false;
-                });`);
-        }
-        
-        if (document.getElementById('optDisableDrag').checked) {
-            protections.push(`
-                // Disable Drag & Drop
-                document.addEventListener('dragstart', function(e) {
-                    e.preventDefault();
-                    return false;
-                });`);
-        }
-        
-        if (document.getElementById('optDisableDevTools').checked) {
-            protections.push(`
-                // Disable DevTools
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'F12' || 
-                        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-                        (e.ctrlKey && e.key === 'U')) {
-                        e.preventDefault();
-                        return false;
-                    }
-                });
-                // Detect DevTools opening
-                setInterval(function() {
-                    if (window.devtools && window.devtools.open) {
-                        window.location.href = 'about:blank';
-                    }
-                }, 1000);`);
-        }
-        
-        if (document.getElementById('optDisableSelect').checked) {
-            protections.push(`
-                // Disable Text Selection
-                document.addEventListener('selectstart', function(e) {
-                    e.preventDefault();
-                    return false;
-                });
-                document.body.style.userSelect = 'none';
-                document.body.style.webkitUserSelect = 'none';
-                document.body.style.msUserSelect = 'none';`);
-        }
-        
-        if (document.getElementById('optDisableCopy').checked) {
-            protections.push(`
-                // Disable Copy
-                document.addEventListener('copy', function(e) {
-                    e.preventDefault();
-                    return false;
-                });
-                document.addEventListener('cut', function(e) {
-                    e.preventDefault();
-                    return false;
-                });`);
-        }
-        
-        if (protections.length === 0) return '';
-        
-        return `<script>
-(function() {
-    "use strict";
-    ${protections.join('\n    ')}
-})();
-<\/script>`;
-    }
-
-    // ========================
-    // OBFUSCATE HTML FUNCTION
-    // ========================
+    // Parse HTML, ekstrak semua tag script, obfuscate inner javascript
     function obfuscateHtml(html, options) {
+        // Regex untuk menangkap <script> ... </script> (termasuk atribut)
         const scriptTagRegex = /(<script\b[^>]*>)([\s\S]*?)(<\/script>)/gi;
         let obfuscatedHtml = html;
         let match;
@@ -636,7 +469,7 @@
             let scriptContent = match[2];
             const closeTag = match[3];
 
-            if (scriptContent.trim() && !openTag.includes('src=')) {
+            if (scriptContent.trim()) {
                 try {
                     const obfuscatedJs = obfuscateJavaScript(scriptContent, options);
                     const newScript = openTag + '\n' + obfuscatedJs + '\n' + closeTag;
@@ -644,22 +477,10 @@
                     scriptsProcessed++;
                 } catch (e) {
                     console.warn("Gagal obfuscate salah satu script: ", e);
+                    // Biarkan tetap original
                 }
             }
         }
-        
-        // Tambahkan proteksi sebelum </body>
-        const protectionScript = generateProtectionScript();
-        if (protectionScript) {
-            if (obfuscatedHtml.includes('</body>')) {
-                obfuscatedHtml = obfuscatedHtml.replace('</body>', protectionScript + '\n</body>');
-            } else if (obfuscatedHtml.includes('</html>')) {
-                obfuscatedHtml = obfuscatedHtml.replace('</html>', protectionScript + '\n</html>');
-            } else {
-                obfuscatedHtml += protectionScript;
-            }
-        }
-        
         return { html: obfuscatedHtml, processed: scriptsProcessed };
     }
 
@@ -674,17 +495,6 @@
     const clearBtn = document.getElementById('clearBtn');
     const exampleBtn = document.getElementById('exampleBtn');
     const statsSpan = document.getElementById('stats');
-    const fileUpload = document.getElementById('fileUpload');
-    const fileInfo = document.getElementById('fileInfo');
-
-    function showMessage(msg, isError = false) {
-        const div = document.createElement('div');
-        div.className = 'status-message';
-        div.style.background = isError ? '#dc2626' : '#10b981';
-        div.textContent = msg;
-        document.body.appendChild(div);
-        setTimeout(() => div.remove(), 3000);
-    }
 
     function getOptions() {
         return {
@@ -700,39 +510,17 @@
     }
 
     function updateStats(length, scriptsCount) {
-        statsSpan.innerHTML = `📊 ${length.toLocaleString()} karakter | ${scriptsCount} script di-obfuscate`;
+        statsSpan.innerHTML = `📊 ${length} karakter | ${scriptsCount} script di-obfuscate`;
     }
-
-    // Upload File Handler
-    fileUpload.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        if (!file.name.endsWith('.html') && !file.name.endsWith('.htm')) {
-            showMessage('Harap pilih file HTML (.html atau .htm)', true);
-            return;
-        }
-        
-        fileInfo.textContent = `📄 ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
-        
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            inputArea.value = event.target.result;
-            showMessage(`✅ ${file.name} berhasil dimuat!`);
-        };
-        reader.onerror = function() {
-            showMessage('Gagal membaca file', true);
-        };
-        reader.readAsText(file);
-    });
 
     obfuscateBtn.addEventListener('click', () => {
         const originalHtml = inputArea.value;
         if (!originalHtml.trim()) {
-            showMessage('Masukkan kode HTML terlebih dahulu atau upload file!', true);
+            alert('Masukkan kode HTML terlebih dahulu!');
             return;
         }
 
+        // Tampilkan loading
         obfuscateBtn.innerHTML = '⏳ Memproses...';
         setTimeout(() => {
             try {
@@ -740,10 +528,9 @@
                 const { html: resultHtml, processed } = obfuscateHtml(originalHtml, options);
                 outputArea.value = resultHtml;
                 updateStats(resultHtml.length, processed);
-                showMessage(`✅ Berhasil! ${processed} script di-obfuscate`);
             } catch (err) {
                 console.error(err);
-                showMessage('Terjadi kesalahan: ' + err.message, true);
+                alert('Terjadi kesalahan saat obfuscate: ' + err.message);
                 outputArea.value = '// ERROR: ' + err.message;
                 updateStats(0, 0);
             } finally {
@@ -754,102 +541,75 @@
 
     copyBtn.addEventListener('click', () => {
         if (!outputArea.value) {
-            showMessage('Tidak ada hasil untuk disalin', true);
+            alert('Tidak ada hasil untuk disalin.');
             return;
         }
         outputArea.select();
         document.execCommand('copy');
-        showMessage('✅ Kode hasil obfuscate disalin ke clipboard!');
+        alert('✅ Kode hasil obfuscate disalin ke clipboard!');
     });
 
     downloadBtn.addEventListener('click', () => {
         if (!outputArea.value) {
-            showMessage('Tidak ada hasil untuk di-download', true);
+            alert('Tidak ada hasil untuk di-download.');
             return;
         }
         const blob = new Blob([outputArea.value], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'obfuscated_' + new Date().toISOString().slice(0,19).replace(/:/g, '-') + '.html';
+        a.download = 'obfuscated_output.html';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showMessage('💾 File HTML berhasil di-download!');
     });
 
     clearBtn.addEventListener('click', () => {
         inputArea.value = '';
         outputArea.value = '';
-        fileUpload.value = '';
-        fileInfo.textContent = 'Belum ada file dipilih';
         statsSpan.innerHTML = 'Siap';
-        showMessage('Semua area dibersihkan');
     });
 
     exampleBtn.addEventListener('click', () => {
         const example = `<!DOCTYPE html>
 <html>
 <head>
-    <title>Demo Aplikasi - Obfuscator Test</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            background: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        button:hover {
-            transform: scale(1.05);
-        }
-    </style>
+    <title>Demo Aplikasi</title>
 </head>
 <body>
-    <h1 id="judul">Selamat Datang di Demo Obfuscator</h1>
-    <p id="pesan">Klik tombol di bawah untuk mencoba</p>
+    <h1 id="judul">Selamat Datang</h1>
     <button onclick="sapaPengguna()">Klik Saya</button>
     
     <script>
         // Fungsi sederhana untuk menyapa
         function sapaPengguna() {
             let nama = prompt('Masukkan nama Anda:');
-            let rahasia = "API_KEY_12345";
             if (nama && nama !== '') {
-                alert('Halo, ' + nama + '! Selamat datang.');
+                alert('Halo, ' + nama + '! Senang berkenalan.');
                 document.getElementById('judul').innerText = 'Halo ' + nama;
-                console.log('User: ' + nama + ', Rahasia: ' + rahasia);
             } else {
                 alert('Nama tidak boleh kosong!');
             }
         }
         
+        // Variabel rahasia
+        const API_KEY = "sk_test_12345";
+        console.log("Aplikasi siap digunakan.");
+        
         // Perhitungan sederhana
         let hasil = 42 * 3 + 7;
-        console.log("Hasil perhitungan: " + hasil);
-        
-        // Inisialisasi
-        console.log("Aplikasi siap digunakan.");
+        console.log("Hasil rahasia: " + hasil);
     </script>
 </body>
 </html>`;
         inputArea.value = example;
         outputArea.value = '';
         statsSpan.innerHTML = 'Contoh dimuat. Tekan Obfuscate.';
-        fileUpload.value = '';
-        fileInfo.textContent = 'Belum ada file dipilih';
-        showMessage('Contoh kode dimuat!');
     });
+    
+    // Tooltip singkat untuk user
+    console.log('JS Obfuscator Siap | Buat sendiri');
 </script>
 </body>
 </html>

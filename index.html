@@ -5,203 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS Obfuscator - Pengacak Kode JavaScript (Fixed)</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            margin: 0;
-            min-height: 100vh;
-            padding: 20px;
-            color: #f1f5f9;
+            margin: 0; min-height: 100vh; padding: 20px; color: #f1f5f9;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; }
         h1 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            text-align: center; font-size: 2rem; margin-bottom: 0.5rem;
             background: linear-gradient(90deg, #a5f3fc, #c084fc);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
         }
-
-        .subtitle {
-            text-align: center;
-            color: #94a3b8;
-            margin-bottom: 2rem;
-        }
-
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
+        .subtitle { text-align: center; color: #94a3b8; margin-bottom: 2rem; }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) { .main-grid { grid-template-columns: 1fr; } }
         .panel {
-            background: #1e293b;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
-            border: 1px solid #334155;
+            background: #1e293b; border-radius: 16px; padding: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); border: 1px solid #334155;
         }
-
         .panel h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #cbd5e1;
+            margin-top: 0; margin-bottom: 15px; display: flex;
+            align-items: center; gap: 8px; color: #cbd5e1;
         }
-
         textarea {
-            width: 100%;
-            height: 400px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 15px;
-            font-family: 'Fira Code', 'Courier New', monospace;
-            font-size: 13px;
-            color: #e2e8f0;
-            resize: vertical;
-            outline: none;
-            transition: border 0.2s;
+            width: 100%; height: 400px; background: #0f172a;
+            border: 1px solid #334155; border-radius: 12px; padding: 15px;
+            font-family: 'Fira Code', 'Courier New', monospace; font-size: 13px;
+            color: #e2e8f0; resize: vertical; outline: none; transition: border 0.2s;
         }
-
-        textarea:focus {
-            border-color: #818cf8;
-        }
-
-        .options-panel {
-            background: #0f172a;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 15px 0;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .option-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        textarea:focus { border-color: #818cf8; }
+        .options-panel { background: #0f172a; border-radius: 12px; padding: 15px; margin: 15px 0; }
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 10px; }
+        .option-item { display: flex; align-items: center; gap: 8px; }
         .option-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #818cf8;
+            width: 18px; height: 18px; cursor: pointer; accent-color: #818cf8;
         }
-
-        .option-item label {
-            cursor: pointer;
-            font-size: 13px;
-            color: #cbd5e1;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: 15px 0;
-        }
-
+        .option-item label { cursor: pointer; font-size: 13px; color: #cbd5e1; }
+        .button-group { display: flex; gap: 12px; flex-wrap: wrap; margin: 15px 0; }
         button {
-            background: #3b82f6;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            background: #3b82f6; border: none; padding: 10px 20px; border-radius: 8px;
+            font-weight: 600; color: white; cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 8px;
         }
-
-        button:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
+        button:hover { background: #2563eb; transform: translateY(-1px); }
+        button.secondary { background: #475569; }
+        button.secondary:hover { background: #334155; }
+        button.danger { background: #dc2626; }
+        button.danger:hover { background: #b91c1c; }
+        button.success { background: #10b981; }
+        button.success:hover { background: #059669; }
+        .info-bar { display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; color: #64748b; }
+        .badge { background: #334155; padding: 4px 10px; border-radius: 20px; font-size: 12px; }
+        .error-badge { background: #7f1d1d; color: #fecaca; }
+        .warning-badge { background: #78350f; color: #fde68a; }
+        footer { text-align: center; margin-top: 30px; color: #475569; font-size: 13px; }
+        .example-btn { background: #2d3748; padding: 5px 12px; font-size: 12px; }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed; bottom: 20px; right: 20px; padding: 12px 24px;
+            border-radius: 8px; color: white; font-weight: 500; z-index: 10000;
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-
-        button.secondary {
-            background: #475569;
+        .toast.success { background: #10b981; }
+        .toast.error { background: #dc2626; }
+        .toast.warning { background: #f59e0b; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        
+        /* Loading spinner */
+        .spinner {
+            width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite;
+            display: inline-block;
         }
-
-        button.secondary:hover {
-            background: #334155;
-        }
-
-        button.danger {
-            background: #dc2626;
-        }
-
-        button.danger:hover {
-            background: #b91c1c;
-        }
-
-        button.success {
-            background: #10b981;
-        }
-
-        button.success:hover {
-            background: #059669;
-        }
-
-        .info-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            font-size: 12px;
-            color: #64748b;
-        }
-
-        .badge {
-            background: #334155;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-
-        .error-badge {
-            background: #7f1d1d;
-            color: #fecaca;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #475569;
-            font-size: 13px;
-        }
-
-        .example-btn {
-            background: #2d3748;
-            padding: 5px 12px;
-            font-size: 12px;
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -219,7 +99,7 @@
                 <button id="clearBtn" class="danger">🗑️ Clear</button>
             </div>
             <div class="info-bar">
-                <span>💡 Tips: Obfuscator hanya akan mengacak isi tag &lt;script&gt;</span>
+                <span>💡 Tips: Hanya isi tag &lt;script&gt; yang akan diacak</span>
             </div>
         </div>
 
@@ -232,8 +112,8 @@
                 <button id="testBtn" class="secondary">🧪 Test Eksekusi</button>
             </div>
             <div class="info-bar">
-                <span>✅ Kode sudah diacak</span>
-                <span id="stats" class="badge">Siap</span>
+                <span id="statusText">✅ Siap</span>
+                <span id="stats" class="badge">Menunggu input</span>
             </div>
         </div>
     </div>
@@ -243,65 +123,104 @@
         <div class="options-grid">
             <div class="option-item">
                 <input type="checkbox" id="optRenameVars" checked> 
-                <label>🏷️ Rename Variabel</label>
+                <label for="optRenameVars">🏷️ Rename Variabel</label>
             </div>
             <div class="option-item">
                 <input type="checkbox" id="optRenameFuncs" checked> 
-                <label>🔄 Rename Fungsi</label>
+                <label for="optRenameFuncs">🔄 Rename Fungsi</label>
             </div>
             <div class="option-item">
                 <input type="checkbox" id="optStringEncoding" checked> 
-                <label>🔐 Encode String</label>
+                <label for="optStringEncoding">🔐 Encode String</label>
             </div>
             <div class="option-item">
                 <input type="checkbox" id="optCompact"> 
-                <label>📦 Compact (hilangkan spasi)</label>
+                <label for="optCompact">📦 Compact (hilangkan spasi)</label>
             </div>
             <div class="option-item">
                 <input type="checkbox" id="optNumberObf"> 
-                <label>🔢 Obfuscate Angka</label>
+                <label for="optNumberObf">🔢 Obfuscate Angka</label>
             </div>
         </div>
         <div class="info-bar" style="margin-top: 10px;">
-            <span>⚠️ Mode Compact disarankan NONAKTIF agar kode tetap valid.</span>
+            <span class="warning-badge">⚠️ Compact mode dapat merusak kode kompleks. Gunakan dengan hati-hati!</span>
         </div>
     </div>
+    
+    <div class="panel" style="margin-top: 20px;">
+        <h3>📋 Log Proses</h3>
+        <div id="logArea" style="background: #0f172a; border-radius: 8px; padding: 12px; 
+            font-family: monospace; font-size: 12px; max-height: 150px; overflow-y: auto; color: #94a3b8;">
+            <em>Belum ada aktivitas...</em>
+        </div>
+    </div>
+    
     <footer>
-        🧪 Obfuscator murni client-side — Tidak ada data yang dikirim ke server.
+        🧪 Obfuscator murni client-side — Tidak ada data yang dikirim ke server.<br>
+        ⚠️ Hasil obfuscation tidak menjamin keamanan 100%. Gunakan untuk proteksi dasar saja.
     </footer>
 </div>
 
 <script>
     // ========================
-    // UTILITY FUNCTIONS
+    // KONSTANTA & UTILITAS
     // ========================
     
-    // Generate random string untuk rename
-    function randomString(length = 6) {
-        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$';
-        let result = '';
-        for (let i = 0; i < length; i++) {
-            result += chars[Math.floor(Math.random() * chars.length)];
+    const RESERVED_KEYWORDS = new Set([
+        'var', 'let', 'const', 'function', 'return', 'if', 'else', 'for', 'while',
+        'break', 'continue', 'switch', 'case', 'default', 'true', 'false', 'null',
+        'undefined', 'NaN', 'Infinity', 'delete', 'typeof', 'instanceof', 'new',
+        'this', 'eval', 'arguments', 'await', 'async', 'class', 'extends', 'super',
+        'import', 'export', 'from', 'of', 'in', 'with', 'yield', 'try', 'catch',
+        'finally', 'throw', 'debugger', 'static', 'get', 'set', 'void', 'do'
+    ]);
+    
+    const GLOBAL_OBJECTS = new Set([
+        'window', 'document', 'console', 'Math', 'JSON', 'Date', 'Array', 'Object',
+        'String', 'Number', 'Boolean', 'RegExp', 'Error', 'Promise', 'Map', 'Set',
+        'Symbol', 'Reflect', 'Proxy', 'Intl', 'WebAssembly', 'Atomics', 'SharedArrayBuffer'
+    ]);
+
+    // Generate nama acak yang aman
+    function generateSafeName(length = 6) {
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let name;
+        do {
+            name = '_';
+            for (let i = 0; i < length; i++) {
+                name += chars[Math.floor(Math.random() * chars.length)];
+            }
+        } while (RESERVED_KEYWORDS.has(name) || GLOBAL_OBJECTS.has(name) || /^[0-9]/.test(name));
+        return name;
+    }
+
+    // Encode string ke Unicode escape sequence (aman untuk semua karakter)
+    function encodeToUnicode(str) {
+        if (!str) return '""';
+        let result = '"';
+        for (let i = 0; i < str.length; i++) {
+            const code = str.charCodeAt(i);
+            // Escape karakter khusus
+            if (code === 0x22) result += '\\"';           // "
+            else if (code === 0x27) result += "\\'";       // '
+            else if (code === 0x5c) result += '\\\\';      // \
+            else if (code === 0x0a) result += '\\n';       // newline
+            else if (code === 0x0d) result += '\\r';       // carriage return
+            else if (code === 0x09) result += '\\t';       // tab
+            else if (code < 0x20 || code > 0x7e) {
+                // Unicode escape untuk non-ASCII atau control chars
+                result += '\\u' + code.toString(16).padStart(4, '0');
+            } else {
+                result += str[i];
+            }
         }
-        // Hindari keyword JavaScript
-        const keywords = ['var', 'let', 'const', 'function', 'return', 'if', 'else', 'for', 'while', 'break', 'continue', 'switch', 'case', 'default', 'true', 'false', 'null', 'undefined', 'NaN', 'Infinity', 'delete', 'typeof', 'instanceof', 'new', 'this', 'eval', 'arguments', 'await', 'async', 'class', 'extends', 'super', 'import', 'export', 'default', 'from', 'of', 'in', 'with', 'yield'];
-        if (keywords.includes(result)) {
-            return '_' + result;
-        }
+        result += '"';
         return result;
     }
 
-    // Encode string ke Base64
-    function encodeToBase64(str) {
-        try {
-            return 'atob("' + btoa(unescape(encodeURIComponent(str))) + '")';
-        } catch(e) {
-            return '"' + str + '"';
-        }
-    }
-
-    // Encode string ke Hex escape
+    // Encode string ke Hex (alternatif)
     function encodeToHex(str) {
+        if (!str) return '""';
         let hex = '';
         for (let i = 0; i < str.length; i++) {
             hex += '\\x' + str.charCodeAt(i).toString(16).padStart(2, '0');
@@ -309,174 +228,303 @@
         return '"' + hex + '"';
     }
 
-    // Proses string literals
+    // ========================
+    // CORE: STRING PROCESSING
+    // ========================
+    
     function processStringLiterals(code, shouldEncode) {
         if (!shouldEncode) return code;
         
-        // Regex untuk menangkap string literal (sederhana)
-        return code.replace(/'(.*?)'/g, (match, content) => {
-            if (content.length === 0) return match;
-            // Random pilih Base64 atau Hex
-            const useBase64 = Math.random() > 0.5;
-            return useBase64 ? encodeToBase64(content) : encodeToHex(content);
-        }).replace(/"(.*?)"/g, (match, content) => {
-            if (content.length === 0) return match;
-            const useBase64 = Math.random() > 0.5;
-            return useBase64 ? encodeToBase64(content) : encodeToHex(content);
+        // Regex yang lebih robust untuk string literal
+        // Menangani escaped quotes dan template strings dasar
+        return code.replace(/(?<!\\)(['"])(?:(?!\1)[^\\]|\\.)*\1/g, (match) => {
+            // Skip string yang terlalu pendek atau kosong
+            if (match.length <= 2) return match;
+            
+            const quote = match[0];
+            const content = match.slice(1, -1);
+            
+            // Skip jika mengandung karakter yang sulit di-handle
+            if (content.includes('${') || content.includes('`')) return match;
+            
+            // Random pilih encoding method
+            const useUnicode = Math.random() > 0.3;
+            return useUnicode ? encodeToUnicode(content) : encodeToHex(content);
         });
     }
 
-    // Rename identifiers dengan aman
+    // ========================
+    // CORE: IDENTIFIER RENAMING
+    // ========================
+    
     function renameIdentifiers(code, renameVars, renameFuncs) {
         if (!renameVars && !renameFuncs) return code;
         
-        const map = new Map();
-        const usedNames = new Set();
+        const nameMap = new Map();
+        const usedNames = new Set([...RESERVED_KEYWORDS, ...GLOBAL_OBJECTS]);
         
-        // Kumpulkan semua identifier yang perlu direname
-        // Pattern untuk var, let, const
+        // Pattern untuk deklarasi variabel: var/let/const nama
         if (renameVars) {
-            const varPattern = /\b(?:var|let|const)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g;
+            const varRegex = /\b(var|let|const)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/g;
             let match;
-            while ((match = varPattern.exec(code)) !== null) {
-                let oldName = match[1];
-                if (!map.has(oldName)) {
-                    let newName = randomString(6);
-                    while (usedNames.has(newName)) newName = randomString(6);
+            while ((match = varRegex.exec(code)) !== null) {
+                const oldName = match[2];
+                if (!nameMap.has(oldName) && !usedNames.has(oldName)) {
+                    let newName;
+                    do { newName = generateSafeName(6); } while (usedNames.has(newName));
                     usedNames.add(newName);
-                    map.set(oldName, newName);
+                    nameMap.set(oldName, newName);
+                    addLog(`🏷️ Rename var: ${oldName} → ${newName}`);
                 }
             }
         }
         
-        // Pattern untuk parameter fungsi
-        const funcParamPattern = /function\s*\w*\s*\(([^)]*)\)/g;
-        let match;
-        while ((match = funcParamPattern.exec(code)) !== null) {
-            const params = match[1].split(',').map(p => p.trim()).filter(p => p);
-            for (let param of params) {
-                if (!map.has(param) && /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(param)) {
-                    let newName = randomString(5);
-                    while (usedNames.has(newName)) newName = randomString(5);
-                    usedNames.add(newName);
-                    map.set(param, newName);
-                }
-            }
-        }
-        
-        // Pattern untuk nama fungsi
+        // Pattern untuk nama fungsi: function nama(
         if (renameFuncs) {
-            const funcNamePattern = /\bfunction\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g;
-            while ((match = funcNamePattern.exec(code)) !== null) {
-                let oldName = match[1];
-                if (!map.has(oldName)) {
-                    let newName = randomString(6);
-                    while (usedNames.has(newName)) newName = randomString(6);
+            const funcRegex = /\bfunction\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g;
+            let match;
+            while ((match = funcRegex.exec(code)) !== null) {
+                const oldName = match[1];
+                if (!nameMap.has(oldName) && !usedNames.has(oldName)) {
+                    let newName;
+                    do { newName = generateSafeName(7); } while (usedNames.has(newName));
                     usedNames.add(newName);
-                    map.set(oldName, newName);
+                    nameMap.set(oldName, newName);
+                    addLog(`🔄 Rename func: ${oldName} → ${newName}`);
                 }
             }
         }
         
-        // Terapkan rename
+        // Pattern untuk parameter fungsi (lebih konservatif)
+        const paramRegex = /\bfunction\s*\w*\s*\(([^)]*)\)/g;
+        let match;
+        while ((match = paramRegex.exec(code)) !== null) {
+            const params = match[1].split(',').map(p => p.trim()).filter(p => 
+                p && /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(p) && !RESERVED_KEYWORDS.has(p)
+            );
+            for (const param of params) {
+                if (!nameMap.has(param) && !usedNames.has(param) && param.length > 2) {
+                    let newName;
+                    do { newName = generateSafeName(4); } while (usedNames.has(newName));
+                    usedNames.add(newName);
+                    nameMap.set(param, newName);
+                }
+            }
+        }
+        
+        // Terapkan rename dengan boundary check (\b) untuk hindari partial match
         let result = code;
-        for (let [oldName, newName] of map) {
-            const regex = new RegExp('\\b' + oldName + '\\b', 'g');
+        for (const [oldName, newName] of nameMap) {
+            // Gunakan word boundary dan negative lookahead/lookbehind untuk akurasi
+            const regex = new RegExp('\\b' + oldName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b(?!\\s*[:=])', 'g');
             result = result.replace(regex, newName);
         }
         
         return result;
     }
 
-    // Obfuscate angka
+    // ========================
+    // CORE: NUMBER OBFUSCATION
+    // ========================
+    
     function obfuscateNumbers(code) {
-        return code.replace(/\b(\d+)\b/g, (match, num) => {
-            const n = parseInt(num);
-            if (n < 0 || n > 9999) return match;
-            if (Math.random() > 0.7) return match;
+        // Hanya proses angka di konteks yang aman (bukan dalam string/regex)
+        return code.replace(/(?<!['"`\\])\b(\d{2,5})\b(?!['"`\w])/g, (match, num) => {
+            const n = parseInt(num, 10);
+            // Skip angka yang terlalu besar/kecil atau sudah dalam format hex
+            if (n < 10 || n > 9999 || match.startsWith('0x')) return match;
+            // Hanya obfuscate 60% angka untuk balance readability
+            if (Math.random() > 0.6) return match;
+            
             const methods = [
-                () => n.toString(),
-                () => '(0x' + n.toString(16) + ')',
-                () => '(~~' + n + ')'
+                () => n.toString(),                              // Original
+                () => '(0x' + n.toString(16) + ')',             // Hex
+                () => '(~~' + n + ')',                          // Bitwise NOT double
+                () => '(' + n + '+0)',                          // Add zero
+                () => n % 2 === 0 ? `(${n/2}*2)` : `(${n}*1)`   // Arithmetic
             ];
             return methods[Math.floor(Math.random() * methods.length)]();
         });
     }
 
-    // Compact code (remove extra whitespace)
-    function compactCode(code) {
-        return code
-            .replace(/\/\/.*$/gm, '')  // Hapus single line comments
-            .replace(/\s+/g, ' ')       // Banyak spasi jadi satu spasi
-            .replace(/;\s*;/g, ';')     // Hapus semicolon ganda
-            .trim();
+    // ========================
+    // CORE: CODE COMPACT (SAFE)
+    // ========================
+    
+    function compactCodeSafely(code) {
+        let result = code;
+        
+        // Hapus single-line comments (tapi hati-hati dengan URL https://)
+        result = result.replace(/(^|[^:])\/\/.*$/gm, '$1');
+        
+        // Hapus multi-line comments
+        result = result.replace(/\/\*[\s\S]*?\*\//g, '');
+        
+        // Normalisasi whitespace: ganti multiple spaces/tabs/newlines dengan single space
+        result = result.replace(/\s+/g, ' ');
+        
+        // Hapus spaces sekitar operator dan punctuation (konservatif)
+        result = result.replace(/\s*([{}[\];,=+\-*/<>!&|?:])\s*/g, '$1');
+        
+        // Pastikan ada space setelah keyword tertentu
+        result = result.replace(/\b(if|for|while|switch|catch|with)\{/g, '$1 {');
+        
+        return result.trim();
     }
 
-    // Main obfuscation function
+    // ========================
+    // MAIN: JAVASCRIPT OBFUSCATION
+    // ========================
+    
     function obfuscateJavaScript(jsCode, options) {
         if (!jsCode || !jsCode.trim()) return jsCode;
         
         let result = jsCode;
+        const steps = [];
         
         try {
-            // 1. Rename identifiers
+            // Step 1: Rename identifiers (paling riskan, lakukan pertama)
             if (options.renameVars || options.renameFuncs) {
+                const before = result.length;
                 result = renameIdentifiers(result, options.renameVars, options.renameFuncs);
+                steps.push(`✓ Rename: ${Math.abs(result.length - before)} chars changed`);
             }
             
-            // 2. Encode strings
+            // Step 2: Encode string literals
             if (options.stringEncoding) {
+                const before = result.length;
                 result = processStringLiterals(result, true);
+                steps.push(`✓ String encode: ${Math.abs(result.length - before)} chars changed`);
             }
             
-            // 3. Obfuscate numbers
+            // Step 3: Obfuscate numbers
             if (options.numberObf) {
+                const before = result.length;
                 result = obfuscateNumbers(result);
+                steps.push(`✓ Number obf: ${Math.abs(result.length - before)} chars changed`);
             }
             
-            // 4. Compact (optional, hati-hati)
+            // Step 4: Compact (opsional, terakhir)
             if (options.compact) {
-                result = compactCode(result);
+                const before = result.length;
+                result = compactCodeSafely(result);
+                steps.push(`✓ Compact: ${before - result.length} chars removed`);
             }
             
+            // Validasi dasar: cek balance braces & parentheses
+            const braces = (result.match(/\{/g) || []).length - (result.match(/\}/g) || []).length;
+            const parens = (result.match(/\(/g) || []).length - (result.match(/\)/g) || []).length;
+            
+            if (braces !== 0 || parens !== 0) {
+                console.warn('⚠️ Potential syntax issue detected');
+                addLog('⚠️ Warning: Brace/paren imbalance detected, result may need review', 'warning');
+            }
+            
+            addLog(steps.join('\n'));
             return result;
+            
         } catch(e) {
             console.error('Obfuscation error:', e);
-            return jsCode; // Return original if error
+            addLog(`❌ Error: ${e.message}`, 'error');
+            return jsCode; // Fallback ke original
         }
     }
 
-    // Obfuscate seluruh HTML
+    // ========================
+    // MAIN: HTML PROCESSING
+    // ========================
+    
     function obfuscateHtml(html, options) {
-        const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
         let processedCount = 0;
+        let totalScripts = 0;
         
-        const result = html.replace(scriptRegex, (match, scriptContent) => {
-            if (!scriptContent || !scriptContent.trim()) return match;
+        // Regex untuk menemukan tag script (dengan attribute handling)
+        const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
+        
+        const result = html.replace(scriptRegex, (fullMatch, scriptContent, offset, source) => {
+            totalScripts++;
+            
+            // Skip jika script kosong atau hanya whitespace
+            if (!scriptContent || !scriptContent.trim()) {
+                addLog('⊘ Skip empty script tag');
+                return fullMatch;
+            }
+            
+            // Skip jika ada attribute type yang bukan JavaScript
+            const typeMatch = fullMatch.match(/type\s*=\s*["']?([^"'\s>]+)/i);
+            if (typeMatch && !['text/javascript', 'application/javascript', 'module', ''].includes(typeMatch[1].toLowerCase())) {
+                addLog(`⊘ Skip non-JS script (type: ${typeMatch[1]})`);
+                return fullMatch;
+            }
             
             try {
                 const obfuscated = obfuscateJavaScript(scriptContent, options);
-                // Cek apakah hasilnya valid (kurung seimbang)
-                const openBraces = (obfuscated.match(/\{/g) || []).length;
-                const closeBraces = (obfuscated.match(/\}/g) || []).length;
-                if (openBraces !== closeBraces) {
-                    console.warn('Braces tidak seimbang, skip obfuscation');
-                    return match;
-                }
                 processedCount++;
-                return match.replace(scriptContent, '\n' + obfuscated + '\n');
+                return fullMatch.replace(scriptContent, '\n/* obfuscated */\n' + obfuscated + '\n/* /obfuscated */\n');
             } catch(e) {
-                console.warn('Gagal obfuscate script:', e);
-                return match;
+                addLog(`❌ Failed to obfuscate script #${totalScripts}: ${e.message}`, 'error');
+                return fullMatch; // Return original on error
             }
         });
         
-        return { html: result, processed: processedCount };
+        addLog(`📊 Processed: ${processedCount}/${totalScripts} script tags`);
+        return { html: result, processed: processedCount, total: totalScripts };
     }
 
     // ========================
-    // UI Elements & Event Handlers
+    // LOGGING & UI UTILS
     // ========================
+    
+    function addLog(message, type = 'info') {
+        const logArea = document.getElementById('logArea');
+        const timestamp = new Date().toLocaleTimeString('id-ID');
+        const prefix = type === 'error' ? '❌' : type === 'warning' ? '⚠️' : '✓';
+        const color = type === 'error' ? '#fecaca' : type === 'warning' ? '#fde68a' : '#94a3b8';
+        
+        const entry = document.createElement('div');
+        entry.innerHTML = `<span style="color:${color}">[${timestamp}] ${prefix}</span> ${message.replace(/\n/g, '<br>')}`;
+        entry.style.marginBottom = '4px';
+        
+        // Clear placeholder if first entry
+        if (logArea.querySelector('em')) {
+            logArea.innerHTML = '';
+        }
+        
+        logArea.appendChild(entry);
+        logArea.scrollTop = logArea.scrollHeight;
+    }
+    
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    function updateStats(processed, total, outputLength) {
+        const stats = document.getElementById('stats');
+        const status = document.getElementById('statusText');
+        
+        if (processed === 0 && total === 0) {
+            stats.textContent = 'Menunggu input';
+            stats.className = 'badge';
+            status.textContent = '✅ Siap';
+        } else if (processed > 0) {
+            stats.textContent = `${processed}/${total} scripts | ${outputLength.toLocaleString()} chars`;
+            stats.className = 'badge';
+            status.textContent = '✅ Success';
+        } else {
+            stats.textContent = 'Gagal memproses';
+            stats.className = 'badge error-badge';
+            status.textContent = '❌ Error';
+        }
+    }
+
+    // ========================
+    // EVENT HANDLERS
+    // ========================
+    
     const inputArea = document.getElementById('inputCode');
     const outputArea = document.getElementById('outputCode');
     const obfuscateBtn = document.getElementById('obfuscateBtn');
@@ -485,7 +533,6 @@
     const testBtn = document.getElementById('testBtn');
     const clearBtn = document.getElementById('clearBtn');
     const exampleBtn = document.getElementById('exampleBtn');
-    const statsSpan = document.getElementById('stats');
 
     function getOptions() {
         return {
@@ -497,52 +544,66 @@
         };
     }
 
-    obfuscateBtn.addEventListener('click', () => {
+    obfuscateBtn.addEventListener('click', async () => {
         const html = inputArea.value;
         if (!html.trim()) {
-            alert('Masukkan kode HTML terlebih dahulu!');
+            showToast('Masukkan kode HTML terlebih dahulu!', 'warning');
+            inputArea.focus();
             return;
         }
         
-        obfuscateBtn.innerHTML = '⏳ Memproses...';
+        // UI loading state
+        const originalBtnText = obfuscateBtn.innerHTML;
+        obfuscateBtn.innerHTML = '<span class="spinner"></span> Memproses...';
+        obfuscateBtn.disabled = true;
         
+        addLog('🚀 Starting obfuscation...');
+        
+        // Use setTimeout to allow UI update
         setTimeout(() => {
             try {
                 const options = getOptions();
-                const { html: resultHtml, processed } = obfuscateHtml(html, options);
+                const { html: resultHtml, processed, total } = obfuscateHtml(html, options);
+                
                 outputArea.value = resultHtml;
-                statsSpan.innerHTML = `✅ ${processed} script terproses | ${resultHtml.length} karakter`;
-                statsSpan.classList.remove('error-badge');
+                updateStats(processed, total, resultHtml.length);
+                showToast(`✅ Berhasil! ${processed}/${total} script diproses`, 'success');
+                
             } catch(err) {
                 console.error(err);
-                statsSpan.innerHTML = '❌ Error: ' + err.message;
-                statsSpan.classList.add('error-badge');
-                alert('Terjadi error: ' + err.message);
+                addLog(`💥 Fatal error: ${err.message}`, 'error');
+                updateStats(0, 0, 0);
+                showToast('Terjadi error: ' + err.message, 'error');
             } finally {
-                obfuscateBtn.innerHTML = '✨ Obfuscate Sekarang';
+                obfuscateBtn.innerHTML = originalBtnText;
+                obfuscateBtn.disabled = false;
             }
-        }, 10);
+        }, 50);
     });
 
-    copyBtn.addEventListener('click', () => {
-        if (!outputArea.value) {
-            alert('Tidak ada hasil untuk disalin');
+    copyBtn.addEventListener('click', async () => {
+        if (!outputArea.value.trim()) {
+            showToast('Tidak ada hasil untuk disalin', 'warning');
             return;
         }
-        outputArea.select();
-        navigator.clipboard.writeText(outputArea.value).then(() => {
-            alert('✅ Kode berhasil disalin!');
-        }).catch(() => {
-            alert('Gagal menyalin');
-        });
+        try {
+            await navigator.clipboard.writeText(outputArea.value);
+            showToast('✅ Kode berhasil disalin ke clipboard!', 'success');
+            addLog('📋 Copied to clipboard');
+        } catch {
+            // Fallback untuk browser lama
+            outputArea.select();
+            document.execCommand('copy');
+            showToast('✅ Kode berhasil disalin!', 'success');
+        }
     });
 
     downloadBtn.addEventListener('click', () => {
-        if (!outputArea.value) {
-            alert('Tidak ada hasil untuk didownload');
+        if (!outputArea.value.trim()) {
+            showToast('Tidak ada hasil untuk didownload', 'warning');
             return;
         }
-        const blob = new Blob([outputArea.value], { type: 'text/html' });
+        const blob = new Blob([outputArea.value], { type: 'text/html;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -551,61 +612,63 @@
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+        showToast('💾 Download dimulai!', 'success');
+        addLog('💾 Downloaded obfuscated file');
     });
 
     testBtn.addEventListener('click', () => {
-        if (!outputArea.value) {
-            alert('Tidak ada kode untuk di-test');
+        if (!outputArea.value.trim()) {
+            showToast('Tidak ada kode untuk di-test', 'warning');
             return;
         }
         
-        // Buat iframe untuk test eksekusi
+        if (!confirm('⚠️ Peringatan: Kode akan dieksekusi dalam iframe.\nHanya test kode dari sumber terpercaya!\n\nLanjutkan?')) {
+            return;
+        }
+        
+        addLog('🧪 Opening test iframe...');
+        
         const iframe = document.createElement('iframe');
-        iframe.style.position = 'fixed';
-        iframe.style.top = '10%';
-        iframe.style.left = '10%';
-        iframe.style.width = '80%';
-        iframe.style.height = '60%';
-        iframe.style.zIndex = '9999';
-        iframe.style.border = '2px solid #3b82f6';
-        iframe.style.borderRadius = '8px';
-        iframe.style.backgroundColor = '#fff';
+        iframe.style.cssText = 'position:fixed;top:10%;left:10%;width:80%;height:70%;' +
+            'z-index:9999;border:3px solid #3b82f6;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,0.5);' +
+            'background:#fff;';
+        
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9998;';
         
         const closeBtn = document.createElement('button');
-        closeBtn.textContent = '✖ Tutup';
-        closeBtn.style.position = 'fixed';
-        closeBtn.style.top = '8%';
-        closeBtn.style.right = '12%';
-        closeBtn.style.zIndex = '10000';
-        closeBtn.style.padding = '5px 12px';
-        closeBtn.style.background = '#dc2626';
-        closeBtn.style.color = 'white';
-        closeBtn.style.border = 'none';
-        closeBtn.style.borderRadius = '6px';
-        closeBtn.style.cursor = 'pointer';
+        closeBtn.innerHTML = '✖ Tutup Test';
+        closeBtn.style.cssText = 'position:fixed;top:5%;right:12%;z-index:10000;' +
+            'padding:8px 20px;background:#dc2626;color:white;border:none;' +
+            'border-radius:8px;cursor:pointer;font-weight:600;';
         
-        closeBtn.onclick = () => {
+        const close = () => {
+            document.body.removeChild(overlay);
             document.body.removeChild(iframe);
             document.body.removeChild(closeBtn);
+            addLog('🔒 Test iframe closed');
         };
         
+        closeBtn.onclick = close;
+        overlay.onclick = close;
+        
+        document.body.appendChild(overlay);
         document.body.appendChild(iframe);
         document.body.appendChild(closeBtn);
         
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        iframeDoc.open();
-        iframeDoc.write(outputArea.value);
-        iframeDoc.close();
-        
-        iframeDoc.body.style.padding = '20px';
-        iframeDoc.body.style.fontFamily = 'monospace';
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        doc.open();
+        doc.write(outputArea.value);
+        doc.close();
     });
 
     clearBtn.addEventListener('click', () => {
         inputArea.value = '';
         outputArea.value = '';
-        statsSpan.innerHTML = 'Siap';
-        statsSpan.classList.remove('error-badge');
+        document.getElementById('logArea').innerHTML = '<em>Belum ada aktivitas...</em>';
+        updateStats(0, 0, 0);
+        showToast('🗑️ Semua field telah dikosongkan', 'success');
+        addLog('🗑️ Cleared all fields');
     });
 
     exampleBtn.addEventListener('click', () => {
@@ -613,36 +676,83 @@
 <html>
 <head>
     <title>Demo Aplikasi</title>
+    <style>body { font-family: sans-serif; padding: 20px; }</style>
 </head>
 <body>
     <h1 id="judul">Selamat Datang</h1>
-    <button onclick="sapaPengguna()">Klik Saya</button>
+    <button onclick="sapaPengguna()">👋 Klik Saya</button>
+    <p id="output"></p>
     
     <script>
-        // Fungsi sederhana untuk menyapa
+        // Fungsi untuk menyapa pengguna
         function sapaPengguna() {
             let nama = prompt('Masukkan nama Anda:');
-            if (nama && nama !== '') {
-                alert('Halo, ' + nama + '! Senang berkenalan.');
-                document.getElementById('judul').innerText = 'Halo ' + nama;
+            const output = document.getElementById('output');
+            
+            if (nama && nama.trim() !== '') {
+                const pesan = 'Halo, ' + nama + '! 🎉';
+                output.textContent = pesan;
+                console.log(pesan);
             } else {
                 alert('Nama tidak boleh kosong!');
             }
         }
         
-        // Variabel rahasia
-        const API_KEY = "sk_test_12345";
-        console.log("Aplikasi siap digunakan.");
+        // Konfigurasi aplikasi
+        const CONFIG = {
+            apiUrl: "https://api.example.com",
+            timeout: 5000,
+            debug: true
+        };
         
-        // Perhitungan sederhana
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Aplikasi siap! Config:", CONFIG);
+            document.getElementById('judul').textContent += " ✨";
+        });
+        
+        // Perhitungan contoh
         let hasil = 42 * 3 + 7;
-        console.log("Hasil rahasia: " + hasil);
+        console.log("Hasil kalkulasi: " + hasil);
     </script>
 </body>
 </html>`;
         outputArea.value = '';
-        statsSpan.innerHTML = 'Contoh dimuat. Tekan Obfuscate.';
+        document.getElementById('logArea').innerHTML = '<em>Contoh dimuat. Tekan "Obfuscate Sekarang" untuk mulai.</em>';
+        updateStats(0, 0, 0);
+        showToast('📋 Contoh kode dimuat!', 'success');
+        addLog('📥 Loaded example code');
     });
+
+    // Auto-save ke localStorage (opsional)
+    window.addEventListener('beforeunload', () => {
+        if (inputArea.value) {
+            localStorage.setItem('jsobf_input', inputArea.value);
+        }
+    });
+    
+    // Load dari localStorage jika ada
+    window.addEventListener('load', () => {
+        const saved = localStorage.getItem('jsobf_input');
+        if (saved) {
+            inputArea.value = saved;
+            addLog('💾 Restored previous input from localStorage');
+        }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            obfuscateBtn.click();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
+            e.preventDefault();
+            copyBtn.click();
+        }
+    });
+    
+    addLog('🎯 JS Obfuscator ready. Paste your HTML and click "Obfuscate Sekarang"!');
 </script>
 </body>
 </html>
